@@ -8,6 +8,9 @@ let token = "";
 
 const thedb = require('../config/dbconfig.js');
 
+const index = express();
+index.set("view engine", "ejs")
+index.use(express.static('static'))
 
 exports.RegUser = (req, res) => {
 
@@ -57,7 +60,7 @@ exports.DelUser = (req, res) => {
 
 exports.EdiUser = (req, res) => {
     const iduser = req.params.iduser
-    const {firstname, lastname, email, password} = req.body
+    const {firstname, lastname, email, password} = req.main
     thedb.query('UPDATE user SET ? WHERE IdUser = ?', [{Firstname: firstname, Lastname: lastname, Email: email, Password: password}, iduser], (error, results) => {
         if (error) {
             return res.status(400).json ({Message: "Message d'erreur"})
@@ -68,7 +71,11 @@ exports.EdiUser = (req, res) => {
 }
 
 exports.LogUser = (req, res) => {
-    const {email, password} = req.body
+    console.log(req.body)
+    const email = req.body.email
+    const password = req.body.password
+    // const {email, password} = req.body
+
     thedb.query('Select * From User Where Email = ?', [email], (error, results) => {
         if (error) {
             return res.status(500).json ({error: 'failed to login'})
@@ -82,12 +89,15 @@ exports.LogUser = (req, res) => {
                 console.log(results)
                 
                 module.exports = token = jwt.sign({Id: results[0].Iduser, Firstname: results[0].Firstname, Lastname: results[0].Lastname, Email: results[0].Email, Rang: results[0].Rang}, process.env.J_SECRET)
+                localStorage.setItem(results[0].Iduser,  token)
                 
-                return res.status(200).json ({Message: "You loged " + token})
+                res.status(200).json ({Message: "You loged " + token})
+                res.render("index")
             }
             else if (bcryptjsverify == false) {
-                return res.status(400).json ({Message: "Wrong password"})
+                res.status(400).json ({Message: "Wrong password"})
             }
+            res.render('login')
         }
     })
 }

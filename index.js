@@ -8,6 +8,8 @@ const index = express();
 index.use(express.urlencoded({extended: false}));
 index.use(express.json());
 
+index.set("view engine", "ejs")
+index.use(express.static('static'))
 // Routes pour enregistrement utilisateur
 index.use('/user', require('./routes/user.js'));
 
