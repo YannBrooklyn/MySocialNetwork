@@ -4,13 +4,14 @@ const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const dotenv = require('dotenv').config({path: "././.env"});
 const path = require('path');
-let token = "";
-
+const router = express.Router()
+let ls = require('local-storage')
 const thedb = require('../config/dbconfig.js');
 
 const index = express();
 index.set("view engine", "ejs")
 index.use(express.static('static'))
+
 
 exports.RegUser = (req, res) => {
 
@@ -88,16 +89,21 @@ exports.LogUser = (req, res) => {
             if (bcryptjsverify == true) {
                 console.log(results)
                 
-                module.exports = token = jwt.sign({Id: results[0].Iduser, Firstname: results[0].Firstname, Lastname: results[0].Lastname, Email: results[0].Email, Rang: results[0].Rang}, process.env.J_SECRET)
-                localStorage.setItem(results[0].Iduser,  token)
+                const token = jwt.sign({Id: results[0].Iduser, Firstname: results[0].Firstname, Lastname: results[0].Lastname, Email: results[0].Email, Rang: results[0].Rang}, process.env.J_SECRET)
                 
-                res.status(200).json ({Message: "You loged " + token})
-                res.render("index")
+                ls.set('test', token)
+                const truc = ls.get('test')
+                console.log("test", truc)
+                console.log('you loged')
+                router.get('/', (req, res) => {
+                    
+                })
+                
             }
             else if (bcryptjsverify == false) {
                 res.status(400).json ({Message: "Wrong password"})
             }
-            res.render('login')
+            
         }
     })
 }
