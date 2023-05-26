@@ -1,0 +1,134 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    font-family: 'Lato', sans-serif;
+    box-sizing: border-box;
+}
+
+.navBar{
+    position: absolute;
+    background-color: #FD2D01;
+    width: 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    box-shadow: black 0 0 10px 0;
+}
+
+.navBar .navLeft{
+    width: 50%;
+    margin: 1%;
+}
+
+.navBar .navLeft img{
+    width: 30%;
+    border-radius: 30px;
+}
+
+.navBar .navRight {
+    width: 50%;
+}
+
+.navBar .navRight ul{
+    display: flex;
+    justify-content: space-around;
+}
+
+.navBar .navRight ul li{
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: .8px;
+}
+
+main{
+    display: flex;
+}
+
+.section-left{
+    background-color:  #4e5166;
+    width: 25%;
+    height: 100vh;
+    border-right: #FD2D01 2px solid;
+    position: absolute;
+}
+
+.home-profil{
+    width: 80%;
+    height: 30%;
+    background-color: white;
+    margin: 5% auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-radius: 20px;
+}
+
+.img-profil {
+    display: flex;
+    justify-content: center;
+}
+
+.img-profil img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+
+.text-profil {
+    margin-left: 10%;
+}
+
+.section-center {
+    background-color:  #4e51669d;
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.post {
+    width: 95%;
+    height: 60%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-radius: 20px;
+}
+
+.post .img-post {
+    width: 100%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.post .img-post img{
+    width: 80%;
+    height: 80%;
+}
+
+.post .text-post {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    margin: 0 auto 5% auto;
+}
+
+.post .text-post {
+    width: 80%;
+}
+
+.section-right {
+    background-color:  #4e5166;
+    width: 25%;
+    height: 100vh;
+    border-left: #FD2D01 2px solid;
+    position: absolute;
+}
