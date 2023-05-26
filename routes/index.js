@@ -6,7 +6,7 @@ const verifytoken = require('../middleware/middleware.js')
 router.get('/', (req, res) => {res.render('index')})
 
 // Route pour Login
-router.get('/login', (req, res) => {res.render ('login')})
+router.get('/login', (req, res) => {res.render ('login')}, )
 router.post('/login', IndexController.LogUser)
 
 
