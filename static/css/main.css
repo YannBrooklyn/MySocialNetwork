@@ -8,7 +8,8 @@
 }
 
 .navBar{
-    position: absolute;
+    
+    
     background-color: #FD2D01;
     width: 100%;
     height: 20%;
@@ -45,6 +46,7 @@
 
 main{
     display: flex;
+    
 }
 
 .section-left{
@@ -52,7 +54,7 @@ main{
     width: 25%;
     height: 100vh;
     border-right: #FD2D01 2px solid;
-    position: absolute;
+    
 }
 
 .home-profil{
@@ -88,6 +90,7 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
+    
 }
 
 .post {
@@ -130,5 +133,5 @@ main{
     width: 25%;
     height: 100vh;
     border-left: #FD2D01 2px solid;
-    position: absolute;
+    
 }

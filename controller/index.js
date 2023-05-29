@@ -1,17 +1,37 @@
-let express = require('express');
 const mysql = require ('mysql');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const dotenv = require('dotenv').config({path: "././.env"});
 const path = require('path');
 
-let ls = require('local-storage')
 const thedb = require('../config/dbconfig.js');
+let cookieparser = require('cookie-parser')
 
-const index = express();
-index.set("view engine", "ejs")
-index.use(express.static('static'))
 
+
+
+exports.Index = (req, res) => {
+    console.log(req.body)
+    const reqTextArea = req.body.textpost
+    console.log(reqTextArea)
+    const IdUser = jwt.decode(req.cookies.tokenUser)
+    console.log(req.cookies.tokenUser)
+    const textpost = {text: reqTextArea, Iduser: IdUser.Id}
+    thedb.query('INSERT INTO post SET ?', textpost, (error, result) => {
+        if (error) {
+            return console.log("error", error)
+        } else {
+            thedb.query('SELECT * FROM post inner join user using(Iduser)', (error, result) => {
+                if (error) {
+                    console.log("erreurrr", error)
+                } else {
+                    return console.log("c'est bon", result)
+                }
+            })
+            
+        }
+    })
+}
 
 
 exports.RegUser = (req, res) => {
@@ -40,7 +60,7 @@ exports.RegUser = (req, res) => {
                     return res.status(400).json ({Message: error})
                 } else {
                     console.log("Enregistrement réussi ", results)
-                    return res.status(200).json({Message: results})
+                    return res.redirect('login')
                 }
             })
         }
@@ -65,12 +85,10 @@ exports.LogUser = (req, res) => {
             if (bcryptjsverify == true) {
                 console.log(results)
                 
-                const token = jwt.sign({Id: results[0].Iduser, Firstname: results[0].Firstname, Lastname: results[0].Lastname, Email: results[0].Email, Rang: results[0].Rang}, process.env.J_SECRET)
+                token = jwt.sign({Id: results[0].Iduser, Firstname: results[0].Firstname, Lastname: results[0].Lastname, Email: results[0].Email, Rang: results[0].Rang}, process.env.J_SECRET)
                 
-                ls.set('test', token)
-                const truc = ls.get('test')
-                console.log("test", truc)
-                console.log('you loged')
+                console.log('you loged', token)
+                res.cookie("tokenUser", token)
                 
                 return res.redirect('/')
             }
@@ -81,3 +99,4 @@ exports.LogUser = (req, res) => {
         }
     })
 }
+

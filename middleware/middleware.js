@@ -1,32 +1,22 @@
 const jwt = require ("jsonwebtoken")
-
 const dotenv = require('dotenv').config({path: "././.env"})
-const token = require ('../controller/user.js')
-let ls = require('local-storage')
+let token = require ('../controller/index.js')
 
 
-module.exports = function verifytoken (req, res, nex) {
-    const truc = ls.get('test')
-    console.log(truc)
-    const tokenheaders= ls.get("test")
 
-    if (!tokenheaders) {
-        return res.status(400).json ({Error: "Vous n'etes pas connecté"})
-    }
-
-    else if (tokenheaders) {
-        jwt.verify(tokenheaders, process.env.J_SECRET, function (error, decoded) {
-            if (error) {
-                console.log(error + token)
-                console.log(token)
-                return res.status(400).json ({error: 'Invalid Token'})
-            }
-            else {
-                
+module.exports = function middleware (req, res, nex) {
+    console.log("regarde sa marche", token)
+    console.log("teetetetet", req.cookies.tokenUser)
+    if (!req.cookies) {
+        res.send("vous n'etes pas connecter")
+    } else {
+        jwt.verify(req.cookies.tokenUser, process.env.J_SECRET, function (err, dec){
+            if (err) {
+                console.log("looke", err)
+            } else {
+                console.log("deode", dec)
                 nex()
             }
         })
-
-    }
+    }  
 }
-

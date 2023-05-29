@@ -4,14 +4,83 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="main.css">
+    <title>Groupomania : Profil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/profil.css">
+    <script defer src="script.js"></script>
+    <script  defer src="/index.js"></script>
 </head>
 <body>
-    <header></header>
+    <header>
+        <div class="navBar">
+            <div class="navLeft">
+                <a href=""><img src="/images/logo.jpg" alt=""></a>
+            </div>
+            <div class="navRight">
+                <ul>
+                    <a href="/"><li>Accueil</li></a>
+                    <a href="/login"><li>Connexion</li></a>
+                    <a href="/user/profil"><li>Profil</li></a>
+                    <a href="/register"><li>Register</li></a>
+                </ul>
+            </div>
+        </div>
+    </header>
     <main>
-        <img src="">
-        <h4>Nom</h4>
+        <section class="section-left">
+        </section>
+        <section class="section-center">
+           
+            <div class="headerprofil">
+                <img class="bannerprofil" src="/profilimg/bannertest.jpg" alt="Bannière Profil">
+                <img class="imgprofil" src="/images/man-g9f85c922a_1280.jpg" alt="">
+                <div class="statsprofil">
+                    <h4>Post</h4>
+                    <h4>???</h4>
+                    <h4>Commentaire</h4>
+                    <h4>???</h4>
+                    <h4>Like</h4>
+                    <h4>???</h4>
+                    
+                </div>
+                <div class="optionprofil">
+                    <button class="buttonprofiloption">Post</h4>
+                    <button class="buttonprofiloption">Commentaire</h4>
+                    <button class="buttonprofiloption">Like</h4>
+                </div>
+            </div>
+            <section class="mainprofil">
+                <div class="divprofilpost"></div>
+                <div class="divprofilcom"></div>
+                <div class="divprofillike"></div>
+            </section>
+        </section>
+        <section class="section-right">
+            <script defer>
+                let HostName = 'http://localhost:3102'
+                function popuplogin() {
+                    history.pushState({}, '', HostName + "/login")
+                }
+            </script>
+            <div class="contentlogreg">
+                <button onclick="popuplogin()"  data-target="#popuplogin" class="buttonlog">Login</button>
+                <button class="buttonreg">Register</button>
+                
+            </div>
+            <form action="login" name="Formulaire Login" method="post">
+                <div class="popuplogin" id="popuplogin" tabindex="-1" aria-hidden="true" >
+                    <h4>Email</h4>
+                    <input id="inputlogemail"  name="email" type="email">
+                    <h4>Mot de passe</h4>
+                    <input id="inputlogpw" name="password" type="password">
+                    <button id="buttonlog" href="/">Connexion</button>
+                </div>
+            </form>
+        </section>
+
 
     </main>
     <footer></footer>

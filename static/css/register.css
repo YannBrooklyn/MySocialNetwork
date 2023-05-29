@@ -1,0 +1,54 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-color: #4e5166;
+    height: 100%;
+    width: 100%;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70%;
+}
+
+.contentregister {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    height: 55vh;
+    width: 60vh;
+    align-items: center;
+    justify-content: center;
+    gap: 2vh;
+    
+}
+
+.h4register {
+    font-size: 2vh;
+}
+
+.section-center-register {
+    background-color:  #b1b1b1dd;
+    border-radius: 4vh;
+    color: white;
+}
+
+.inputtextregister {
+    height:5%;
+    width: 50%;
+}
+
+#buttonregister {
+    height: 3.5vh;
+    width: 20vh;
+    border-radius: 2vh;
+    border-style: none;
+    background-color: #FD2D01;
+    color: white;
+    font-size: 2.6vh;
+}

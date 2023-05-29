@@ -1,32 +1,50 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groupomania</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
-    <title>Document</title>
-    <script defer src="/index.js"></script>
+    <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/register">Register</a></li>
-                <li><a href="/login">Login</a></li>
-            </ul>
-        </nav>
+        <div class="navBar">
+            <div class="navLeft">
+                <a href=""><img src="images/logo.jpg" alt=""></a>
+            </div>
+            <div class="navRight">
+                <ul>
+                    <a href="/"><li>Accueil</li></a>
+                    <a href="/login"><li>Connexion</li></a>
+                    <a href="/user/profil"><li>Profil</li></a>
+                    <a href="/register"><li>Register</li></a>
+                </ul>
+            </div>
+        </div>
     </header>
+
     <main>
-        <form action="login" name="Formulaire Login" method="post">
-            <h4>Email</h4>
-            <input id="inputlogemail"  name="email" type="email">
-            <h4>Mot de passe</h4>
-            <input id="inputlogpw" name="password" type="password">
-            <button id="buttonlog" href="/">Connexion</button>
+        
+
+        <section class="section-center-login">
             
-        </form>
+            <form action="login" name="Formulaire Login" method="post">
+                <div class="contentlogin">
+                    <h4 class="h4login">Email</h4>
+                    <input class="inputtextlogin" id="inputlogemail"  name="email" type="email">
+                    <h4 class="h4login">Mot de passe</h4>
+                    <input class="inputtextlogin" id="inputlogpw" name="password" type="password">
+                    <br>
+                    <button id="buttonlog" href="/">Connexion</button>
+                </div>
+            </form>
+           
+        </section>
     </main>
 </body>
 </html>

@@ -2,9 +2,9 @@ let express = require('express');
 const UserController = require ('../controller/user.js');
 const router = express.Router();
 
-const verifytoken = require('../middleware/middleware.js');
+const middleware = require('../middleware/middleware.js');
 
-
+const IndexController = require('../controller/index.js')
 
 
 
@@ -28,6 +28,11 @@ router.get('/all', UserController.AllUser)
 router.get('/get/:iduser', UserController.GetUser)
 // Routes pour récupérer ces propres informations d'utilisateur
 router.get('/me', UserController.MeUser)
+
+router.get('/profil', middleware, (req,res) => {
+    res.render('profil')
+})
+
 
 
 
