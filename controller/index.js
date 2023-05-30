@@ -39,11 +39,11 @@ exports.IndexCom = (req, res) => {
     const reqInputCom = req.body.inputcomments
     const IdUser = jwt.decode(req.cookies.tokenUser)
     const textComments = {text: reqInputCom, Iduser: IdUser.Id}
-    thedb.query('INSERT INTO com SET ?', textComments, (error, result) => {
+    thedb.query('INSERT INTO comments SET ?', textComments, (error, result) => {
         if (error) {
             return console.log("error", error)
         } else {
-            thedb.query('Select * FROM com', (error, result) => {
+            thedb.query('Select * FROM comments', (error, result) => {
                 if (error) {
                     console.log("erreur", error)
                 } else {
