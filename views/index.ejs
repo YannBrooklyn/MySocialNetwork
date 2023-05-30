@@ -48,7 +48,7 @@
         <section class="section-center">
             
             <div class="post">
-                <form action="/" method="post">
+                <form action="/post" method="post">
                     <textarea name="textpost" id="" cols="30" rows="10"></textarea>
                     <button class="sendpost">Poster</button>
                 </form>
@@ -56,7 +56,8 @@
             <div class="actualite">
                 
                 <% result.forEach(function (text) {%>
-                    <div class="thePost">
+                    <div class="thePost" id="thePost<%= text.idPost %>"> 
+                        <img class="imgUserPost" src="images/<%=text.Photoprofil%>">
                         <h2>
                             <%= text.Firstname + " " + text.Lastname %>
                         </h2>
@@ -67,12 +68,15 @@
                             <%= text.datePost %>
                         </h5>
                         <div class="coms">
-                            <form action="/" method="post">
-                                <input type="text" name="inputcom">
+                            <form action="/comments" method="post">
+                                <input type="text" name="inputcomments">
                                 <button type="submit">Envoyer</button>
                                 <hr>
                             </form>
-                            <% result.forEach(function (com) { %>})
+                            
+                                <h2>
+                                    
+                                </h2>
                         </div>
                     </div>
                 <%}) %>

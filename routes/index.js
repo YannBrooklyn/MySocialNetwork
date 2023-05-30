@@ -21,10 +21,10 @@ router.post ('/' , IndexController.Index)
 
 
 // Route pour Login
-router.get('/login', (req, res) => {res.render ('login')}, )
+router.get('/login', (req, res) => {res.render ('login')})
 router.post('/login', IndexController.LogUser)
 
-
+router.get("/comments", IndexController.IndexCom)
 
 // Routes pour enregistrement utilisateur
 router.get('/register', (req, res) => {res.render('register')})

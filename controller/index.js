@@ -11,6 +11,8 @@ let cookieparser = require('cookie-parser')
 
 
 exports.Index = (req, res) => {
+
+    
     console.log(req.body)
     const reqTextArea = req.body.textpost
     console.log(reqTextArea)
@@ -29,6 +31,26 @@ exports.Index = (req, res) => {
                 }
             })
             
+        }
+    })
+}
+
+exports.IndexCom = (req, res) => {
+    const reqInputCom = req.body.inputcomments
+    const IdUser = jwt.decode(req.cookies.tokenUser)
+    const textComments = {text: reqInputCom, Iduser: IdUser.Id}
+    thedb.query('INSERT INTO com SET ?', textComments, (error, result) => {
+        if (error) {
+            return console.log("error", error)
+        } else {
+            thedb.query('Select * FROM com', (error, result) => {
+                if (error) {
+                    console.log("erreur", error)
+                } else {
+                    res.redirect('/')
+                    return console.log('resumt', result)
+                }
+            })
         }
     })
 }
