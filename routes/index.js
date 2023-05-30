@@ -12,7 +12,15 @@ router.get('/', (req, res) => {
             res.render('index')
         } else {
             console.log('yooo', result)
-            res.render('index', {result})
+            thedb.query('SELECT * FROM com INNER JOIN user USING(Iduser)', (errcom, resultcom) => {
+                if (error) {
+                    console.log("commentaire", errcom)
+                    res.render('index')
+                } else {
+                    console.log("resultscom", resultcom)
+                    res.render('index', {result, resultcom})
+                }
+            })
         }
     })   
 })
@@ -24,7 +32,9 @@ router.post ('/' , IndexController.Index)
 router.get('/login', (req, res) => {res.render ('login')})
 router.post('/login', IndexController.LogUser)
 
-router.get("/comments", IndexController.IndexCom)
+
+
+router.post("/post/:params", IndexController.IndexCom)
 
 // Routes pour enregistrement utilisateur
 router.get('/register', (req, res) => {res.render('register')})

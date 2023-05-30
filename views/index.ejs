@@ -48,7 +48,7 @@
         <section class="section-center">
             
             <div class="post">
-                <form action="/post" method="post">
+                <form action="/" method="post">
                     <textarea name="textpost" id="" cols="30" rows="10"></textarea>
                     <button class="sendpost">Poster</button>
                 </form>
@@ -68,15 +68,22 @@
                             <%= text.datePost %>
                         </h5>
                         <div class="coms">
-                            <form action="/comments" method="post">
+                            <form action="/post/<%=text.idPost%>" method="post">
                                 <input type="text" name="inputcomments">
                                 <button type="submit">Envoyer</button>
                                 <hr>
                             </form>
                             
-                                <h2>
-                                    
-                                </h2>
+                            <% resultcom.forEach(function(com) { %>
+                                <% if (com.idPost == text.idPost) {%>
+                                    <h5>
+                                        <%= com.Firstname + " " + com.Lastname %>
+                                    </h5>
+                                    <h5>
+                                        <%= com.text %>   
+                                    </h5>
+                                <%} %>
+                            <% })%>
                         </div>
                     </div>
                 <%}) %>
