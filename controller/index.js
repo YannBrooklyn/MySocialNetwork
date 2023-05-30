@@ -83,9 +83,9 @@ exports.LogUser = (req, res) => {
         else {
             const bcryptjsverify = bcryptjs.compareSync(password, results[0].Password)
             if (bcryptjsverify == true) {
-                console.log(results)
+                console.log("result login",results)
                 
-                token = jwt.sign({Id: results[0].Iduser, Firstname: results[0].Firstname, Lastname: results[0].Lastname, Email: results[0].Email, Rang: results[0].Rang}, process.env.J_SECRET)
+                const token = jwt.sign({Id: results[0].Iduser}, process.env.J_SECRET)
                 
                 console.log('you loged', token)
                 res.cookie("tokenUser", token)
@@ -95,7 +95,6 @@ exports.LogUser = (req, res) => {
             else if (bcryptjsverify == false) {
                 res.status(400).json ({Message: "Wrong password"})
             }
-            
         }
     })
 }

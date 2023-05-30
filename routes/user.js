@@ -20,8 +20,6 @@ const IndexController = require('../controller/index.js')
 router.delete('/delete/:iduser',  UserController.DelUser)
 // Routes pour modifier utilisateur
 router.put('/edit/:iduser', UserController.EdiUser)
-// Routes pour la deconnexion d'un utilisateur
-// router.post('/logout', UserController.OutUser)
 // Routes pour récupérer tout les utilisateurs
 router.get('/all', UserController.AllUser)
 // Routes pour récupérer un utilisateur

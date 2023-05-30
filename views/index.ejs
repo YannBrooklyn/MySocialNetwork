@@ -57,7 +57,6 @@
                 
                 <% result.forEach(function (text) {%>
                     <div class="thePost">
-                        
                         <h2>
                             <%= text.Firstname + " " + text.Lastname %>
                         </h2>
@@ -67,6 +66,14 @@
                         <h5>
                             <%= text.datePost %>
                         </h5>
+                        <div class="coms">
+                            <form action="/" method="post">
+                                <input type="text" name="inputcom">
+                                <button type="submit">Envoyer</button>
+                                <hr>
+                            </form>
+                            <% result.forEach(function (com) { %>})
+                        </div>
                     </div>
                 <%}) %>
             </div>

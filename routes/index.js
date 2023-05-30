@@ -6,18 +6,15 @@ const thedb = require('../config/dbconfig.js')
 let jwt = require('jsonwebtoken')
 
 router.get('/', (req, res) => {
-    thedb.query('SELECT * FROM post inner join user using(Iduser) Order by datePost DESC', (error, result) => {
+    thedb.query('SELECT * FROM post INNER JOIN user USING(Iduser) ORDER BY datePost DESC', (error, result) => {
         if (error) {
             console.log(error)
             res.render('index')
-        }
-        else {
+        } else {
             console.log('yooo', result)
-            
             res.render('index', {result})
         }
-    })
-    
+    })   
 })
 
 router.post ('/' , IndexController.Index)
