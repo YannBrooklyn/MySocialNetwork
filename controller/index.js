@@ -25,10 +25,10 @@ exports.Index = (req, res) => {
         } else {
             thedb.query('SELECT * FROM post inner join user using(Iduser)', (error, result) => {
                 if (error) {
-                    console.log("erreurrr", error)
+                    return console.log("erreurrr", error)
                 } else {
-                    res.redirect('/')
-                    return console.log("c'est bon", result)
+                    return res.redirect('/')
+                    
                 }
             })
             
@@ -40,7 +40,7 @@ exports.IndexCom = (req, res) => {
     console.log("commmeeee", req.params.params)
     const reqInputCom = req.body.inputcomments
     const IdUser = jwt.decode(req.cookies.tokenUser)
-    const textComments = {text: reqInputCom, Iduser: IdUser.Id, idPost: req.params.params}
+    const textComments = {textCom: reqInputCom, Iduser: IdUser.Id, idPost: req.params.params}
     thedb.query('INSERT INTO com SET ?', textComments, (error, result) => {
         if (error) {
             return console.log("error", error)
@@ -57,6 +57,42 @@ exports.IndexCom = (req, res) => {
     })
 }
 
+exports.LikeCom = (req, res) => {
+    
+    const IdUser = jwt.decode(req.cookies.tokenUser)
+    const LikeInfo = {idCom: req.params.params1, Iduser: IdUser.Id, idPost: req.params.params2}
+
+    thedb.query('Select * from likecom Where idCom AND Iduser AND idPost', LikeInfo, (error, resultverif) => {
+
+        if(error) {
+            thedb.query('INSERT INTO likecom SET ?', LikeInfo, (errorliked, resultliked) =>{
+                if (errorliked) {
+                    console.log("erreur avec like", errorliked)
+                    return res.redirect('/')
+                } else {
+                    console.log(error)
+                    console.log("tu like", resultliked)
+                    return res.redirect('/')
+                }
+            })
+        } else {
+            thedb.query('DELETE FROM likecom Where idLikeCom = ?', resultverif[0].idLikeCom, (errordellike, resultdellike) => {
+                console.log(resultverif)
+                console.log(resultverif[0].idLikeCom)
+                if (errordellike) {
+                    console.log('loooooooooooook', error)
+                    return res.redirect('/')
+                } else {
+                    console.log("retirer like", resultdellike)
+                    return res.redirect('/')
+                }
+            })
+        }
+
+    })
+
+    
+}
 
 exports.RegUser = (req, res) => {
 

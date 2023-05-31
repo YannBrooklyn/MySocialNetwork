@@ -80,8 +80,11 @@
                                         <%= com.Firstname + " " + com.Lastname %>
                                     </h5>
                                     <h5>
-                                        <%= com.text %>   
+                                        <%= com.textCom %>
                                     </h5>
+                                    <form action="/like/<%=com.idCom%>/post/<%=text.idPost%>" method="post">
+                                        <button name="like" type="submit">Coeur</button>
+                                    </form>
                                 <%} %>
                             <% })%>
                         </div>

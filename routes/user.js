@@ -31,7 +31,7 @@ router.get('/profil', middleware, (req,res) => {
     res.render('profil')
 })
 
-
+ 
 
 
 

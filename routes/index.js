@@ -8,16 +8,16 @@ let jwt = require('jsonwebtoken')
 router.get('/', (req, res) => {
     thedb.query('SELECT * FROM post INNER JOIN user USING(Iduser) ORDER BY datePost DESC', (error, result) => {
         if (error) {
-            console.log(error)
+
             res.render('index')
         } else {
-            console.log('yooo', result)
+            
             thedb.query('SELECT * FROM com INNER JOIN user USING(Iduser)', (errcom, resultcom) => {
                 if (error) {
-                    console.log("commentaire", errcom)
+                    
                     res.render('index')
                 } else {
-                    console.log("resultscom", resultcom)
+                    
                     res.render('index', {result, resultcom})
                 }
             })
@@ -32,7 +32,7 @@ router.post ('/' , IndexController.Index)
 router.get('/login', (req, res) => {res.render ('login')})
 router.post('/login', IndexController.LogUser)
 
-
+router.post('/like/:params1/post/:params2', IndexController.LikeCom)
 
 router.post("/post/:params", IndexController.IndexCom)
 
