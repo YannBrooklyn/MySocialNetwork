@@ -171,3 +171,15 @@ footer {
     gap: 1vh;
     flex-direction: column;
 }
+
+.buttonlikecom {
+    background-color: unset;
+    
+}
+
+.h5likecom {
+    color: rgba(0, 0, 0, 0);
+    border-color: black;
+    border-style: solid;
+    border-width: 0.5vh;
+}

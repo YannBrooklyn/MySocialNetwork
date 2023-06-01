@@ -67,8 +67,13 @@
                         <h5>
                             <%= text.datePost %>
                         </h5>
+                        <form action="/like/post/<%=text.idPost%>" method="post">
+                            <button type="submit">&#10084;</button>
+                        </form>
+                        
+                        
                         <div class="coms">
-                            <form action="/post/<%=text.idPost%>" method="post">
+                            <form action="/com/post/<%=text.idPost%>" method="post">
                                 <input type="text" name="inputcomments">
                                 <button type="submit">Envoyer</button>
                                 <hr>
@@ -82,9 +87,10 @@
                                     <h5>
                                         <%= com.textCom %>
                                     </h5>
-                                    <form action="/like/<%=com.idCom%>/post/<%=text.idPost%>" method="post">
-                                        <button name="like" type="submit">Coeur</button>
+                                    <form action="/like/com/<%=com.idCom%>/post/<%=text.idPost%>" method="post">
+                                        <button name="like" class="buttonlikecom" type="submit"><h5 class="h5likecom">&#10084;</h5></button>
                                     </form>
+                                    <hr>
                                 <%} %>
                             <% })%>
                         </div>

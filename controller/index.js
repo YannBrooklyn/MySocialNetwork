@@ -5,7 +5,7 @@ const dotenv = require('dotenv').config({path: "././.env"});
 const path = require('path');
 
 const thedb = require('../config/dbconfig.js');
-let cookieparser = require('cookie-parser')
+let cookieparser = require('cookie-parser');
 
 
 
@@ -57,17 +57,51 @@ exports.IndexCom = (req, res) => {
     })
 }
 
+exports.LikePost = (req, res) => {
+    const IdUser = jwt.decode(req.cookies.tokenUser)
+    const LikePostInfo = {Iduser: IdUser.Id, idPost: parseInt(req.params.paramsPost)}
+    thedb.query('SELECT * FROM likepost WHERE Iduser = ? AND idPost = ?', [IdUser.Id, parseInt(req.params.paramsPost)], (error, result) => {
+        if (result.length > 0) {
+            thedb.query('DELETE FROM likePost WHERE Iduser = ? AND idPost = ?', [IdUser.Id, req.params.paramsPost], (errordel, resultdel) => {
+                if (errordel) {
+                    console.log(error)
+                    return res.redirect('/')
+                }
+                else if (!errordel) {
+                    console.log(resultdel)
+                    return res.redirect('/')
+                }
+            })
+        }
+        else if (result.length == 0) {
+            thedb.query('INSERT INTO likePost SET ?', LikePostInfo, (errorinsert, resultinsert) => {
+                if (errorinsert) {
+                    console.log(errorinsert)
+                    return res.redirect('/')
+                }
+                else if (!errorinsert) {
+                    console.log(resultinsert)
+                    return res.redirect('/')
+                }
+            })
+        }
+    })
+}
+
 exports.LikeCom = (req, res) => {
     
     const IdUser = jwt.decode(req.cookies.tokenUser)
-    const LikeInfo = {idCom: req.params.params1, Iduser: IdUser.Id, idPost: req.params.params2}
+    const LikeInfo = {idCom: parseInt(req.params.params1), Iduser: IdUser.Id, idPost: parseInt(req.params.params2)}
 
-    thedb.query('Select * from likecom Where idCom AND Iduser AND idPost', LikeInfo, (error, resultverif) => {
-
-        if(error) {
+    thedb.query('SELECT idLikeCom FROM likecom WHERE idCom = ? AND Iduser = ? AND idPost = ?', [parseInt(req.params.params1), parseInt(IdUser.Id), parseInt(req.params.params2)], (error, resultverif) => {
+        console.log("resultverif", resultverif)
+        console.log("resultverif", error)
+        if(resultverif.length < 1) {
             thedb.query('INSERT INTO likecom SET ?', LikeInfo, (errorliked, resultliked) =>{
                 if (errorliked) {
                     console.log("erreur avec like", errorliked)
+                    console.log('rrrrrrrrrrrrrrrrrrrr', resultliked)
+                    console.log('reeeeeeeeeeeeeeerrefedfdfdf', resultverif)
                     return res.redirect('/')
                 } else {
                     console.log(error)
@@ -80,7 +114,7 @@ exports.LikeCom = (req, res) => {
                 console.log(resultverif)
                 console.log(resultverif[0].idLikeCom)
                 if (errordellike) {
-                    console.log('loooooooooooook', error)
+                    console.log('loooooooooooook', errordellike)
                     return res.redirect('/')
                 } else {
                     console.log("retirer like", resultdellike)

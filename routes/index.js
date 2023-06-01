@@ -32,9 +32,11 @@ router.post ('/' , IndexController.Index)
 router.get('/login', (req, res) => {res.render ('login')})
 router.post('/login', IndexController.LogUser)
 
-router.post('/like/:params1/post/:params2', IndexController.LikeCom)
+router.post('/like/com/:params1/post/:params2', IndexController.LikeCom)
 
-router.post("/post/:params", IndexController.IndexCom)
+router.post('/like/post/:paramsPost', IndexController.LikePost)
+
+router.post("/com/post/:params", IndexController.IndexCom)
 
 // Routes pour enregistrement utilisateur
 router.get('/register', (req, res) => {res.render('register')})
