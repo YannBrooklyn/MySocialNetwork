@@ -1,47 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Groupomania</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/register.css">
-</head>
-<body>
-    <header>
-        <div class="navBar">
-            <div class="navLeft">
-                <a href=""><img src="images/logo.jpg" alt=""></a>
-            </div>
-            <div class="navRight">
-                <ul>
-                    <a href="/"><li>Accueil</li></a>
-                    <a href="/login"><li>Connexion</li></a>
-                    <a href="/user/profil"><li>Profil</li></a>
-                    <a href="/register"><li>Register</li></a>
-                </ul>
-            </div>
-        </div>
-    </header>
+<%- include ('include/headerpt1') %>
+<title>Groupomania : Register</title>
+<link rel="stylesheet" href="/css/register.css">
+<%- include ('include/headerpt2') %>
 
     <main>
         <section class="section-center-register">
             <form method="post" action="register" name="Formulaire register">
                 <div class="contentregister">
                     <h4 class="h4register">Firstname</h4>
-                    <input class="inputtextregister" name="firstname"type="text">
+                    <input class="inputtextregister" name="firstname"type="text" pattern="^[\-._a-zA-Z\d]{3,50}$" required>
                     <h4 class="h4register">Lastname</h4>
-                    <input class="inputtextregister" name="lastname" type="text">
+                    <input class="inputtextregister" name="lastname" type="text" pattern="^[\-._a-zA-Z\d]{3,50}$" required>
                     <h4 class="h4register">Email</h4>
-                    <input class="inputtextregister" name="email" type="email">
-                    <h4 class="h4r class="inputtextregister"egister">Password</h4>
-                    <input class="inputtextregister" name="password" type="password">
+                    <input class="inputtextregister" name="email" type="email" pattern="^([\-._A-Za-z\d]{3,40})+@([a-zA-Z\d]{3,40})+\.([a-zA-Z\d]{3,20})$" required>
+                    <h4 class="h4register">Password</h4>
+                    <input class="inputtextregister" name="password" type="password" pattern="^[\-._a-zA-Z\d]{3,255}$" required>
                     <h4 class="h4register">Password Confirm</h4>
-                    <input class="inputtextregister" name="passwordconfirm" type="password">
+                    <input class="inputtextregister" name="passwordconfirm" type="password" pattern="^[\-._a-zA-Z\d]{3,255}$" required>
                     <button id="buttonregister">Inscription</button>
                 </div>
             </form>

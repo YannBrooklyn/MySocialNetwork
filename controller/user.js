@@ -5,7 +5,7 @@ const bcryptjs = require('bcryptjs');
 const dotenv = require('dotenv').config({path: "././.env"});
 const path = require('path');
 
-let ls = require('local-storage')
+
 const thedb = require('../config/dbconfig.js');
 
 const index = express();

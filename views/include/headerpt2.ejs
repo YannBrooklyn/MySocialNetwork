@@ -1,0 +1,27 @@
+</head>
+<body>
+    <header>
+        <div class="navBar">
+            <div class="navLeft">
+                <a href="/"><img src="/images/logo.jpg" alt="Groupomania"></a>
+            </div>
+            <div class="navRight">
+                <ul>
+                    <a href="/"><li>Accueil</li></a>
+                    <% if (tokencookie) { %>
+                    <a href="/user/profil"><li>Profil</li></a>
+                    <% } %>
+                    <% if (!tokencookie) { %>
+                    <a href="/register"><li>Register</li></a>
+                    <% } %>
+                    <% if (!tokencookie) { %>
+                    <a href="/login"><li>Connexion</li></a>
+                    <% } %>
+                    <% if (tokencookie) { %>
+                    <a href="/user/parameter"><li><%= resultuser[0].Firstname + " " + resultuser[0].Lastname %></li></a>
+                    <a href="/logout"><li>Deconnexion</li></a>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </header>
