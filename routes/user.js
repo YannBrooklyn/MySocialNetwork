@@ -17,9 +17,9 @@ let thedb = require('../config/dbconfig.js')
 
 
 // Routes pour supprimer un utilisateur
-router.delete('/delete/:iduser',  UserController.DelUser)
+router.post('/parameter/delete/:iduser',  UserController.DelUser)
 // Routes pour modifier utilisateur
-router.put('/edit/:iduser', UserController.EdiUser)
+router.post('/parameter/edit/:iduser', UserController.EdiUser)
 // Routes pour récupérer tout les utilisateurs
 router.get('/all', UserController.AllUser)
 // Routes pour récupérer un utilisateur

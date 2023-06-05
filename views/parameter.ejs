@@ -3,5 +3,40 @@
 <link rel="stylesheet" href="/css/parameter.css">
 <%- include ('include/headerpt2') %>
 <main>
+    <section class="section-left">
 
+    </section>
+    <section class="section-center">
+        <form action="/user/parameter/edit/<%=IDUserJSON.Id%>" method="post">
+            <h4>Prénom</h4>
+            <input name="firstname" type="text" value="<%=resultuser[0].Firstname%>">
+            <h4>Nom de famille</h4>
+            <input name="lastname" type="text" value="<%=resultuser[0].Lastname%>">
+            <h4>Email</h4>
+            <input name="email" type="email" value="<%=resultuser[0].Email%>">
+            <h4>Password</h4>
+            <input name="password" type="password">
+            <hr>
+            <h4>Fonction</h4>
+            <input name="fonction" type="text" value="<%=resultuser[0].Fonction%>">
+            <h4>Habite à</h4>
+            <input name="habitea" type="text" value="<%=resultuser[0].Habitea%>">
+            <h4>Date de naissance</h4>
+            <input name="datenaissance" type="date" value="<%=resultuser[0].Datenaissance%>">
+            <h4>En poste depuis</h4>
+            <input name="enpostedepuis" type="date" value="<%=resultuser[0].Enpostedepuis%>">
+            <h4>Photo de profil</h4>
+            <input name="photoprofil" type="file">
+            <h4>Bannière de profil</h4>
+            <input name="bannerprofil" type="file">
+            <button type="submit">Modifier</button>
+        </form>
+
+        <form action="/user/parameter/delete/<%=IDUserJSON.Id%>" method="post">
+            <button style="border-color: red; background-color: black; color: red; border-width: 0.3vh; border-style: solid;">Delete</button>
+        </form>
+    </section>
+    <section class="section-right">
+
+    </section>
 </main>

@@ -11,13 +11,13 @@ let cookieparser = require('cookie-parser')
 router.get('/', (req, res) => {
     const IDUserJSON = jwt.decode(req.cookies.tokenUser)
     const tokencookie = req.cookies.tokenUser
-
     if (tokencookie) {
         thedb.query('SELECT * FROM user WHERE Iduser = ?', IDUserJSON.Id, (erroruser, resultuser) => {
             if (erroruser) {
                 console.log(erroruser)
             }
             else if (!erroruser) {
+                console.log(resultuser)
                 thedb.query('SELECT * FROM post INNER JOIN user USING(Iduser) ORDER BY datePost DESC', (error, result) => {
                     if (error) {
                         res.render('index')
@@ -133,6 +133,7 @@ router.get('/register', (req, res) => {
                 console.log(erroruser)
             }
             else if (!erroruser) {
+                
                 thedb.query('SELECT * FROM post INNER JOIN user USING(Iduser) ORDER BY datePost DESC', (error, result) => {
                     if (error) {
                         res.render('register')

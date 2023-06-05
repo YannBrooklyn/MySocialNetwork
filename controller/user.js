@@ -16,26 +16,31 @@ index.use(express.static('static'))
 
 
 exports.DelUser = (req, res) => {
-    const iduser = req.params.iduser
+    const IDuserme = jwt.decode(req.cookies.tokenUser)
     
-    thedb.query('DELETE FROM user WHERE Iduser = ?', iduser, (error, results) => {
+    thedb.query('DELETE FROM user WHERE Iduser = ?', IDuserme.Id, (error, results) => {
         if (error) {
             return res.status(400).json ({Message: error})
         }
         else {
-            return res.status(200).json ({Message: "Cette utilisateur a été supprimé " + results})
+            res.clearCookie('tokenUser')
+            return res.redirect('/')
         }
     })
 }
 
 exports.EdiUser = (req, res) => {
-    const iduser = req.params.iduser
-    const {firstname, lastname, email, password} = req.main
-    thedb.query('UPDATE user SET ? WHERE IdUser = ?', [{Firstname: firstname, Lastname: lastname, Email: email, Password: password}, iduser], (error, results) => {
+    const IdUser = jwt.decode(req.cookies.tokenUser)
+    console.log("test", IdUser)
+    console.log('erreur')
+    const {firstname, lastname, email, password, photoprofil, bannerprofil, datenaissance, enpostedepuis, habitea, fonction} = req.body
+    const salt = bcryptjs.genSaltSync(8)
+    const hashedpassword = bcryptjs.hashSync(password, salt)
+    thedb.query('UPDATE user SET ? WHERE IdUser = ?', [{Firstname: firstname, Lastname: lastname, Email: email, Password: hashedpassword, Photoprofil: photoprofil, Bannerprofil: bannerprofil, Datenaissance: datenaissance, Enpostedepuis: enpostedepuis, Habitea: habitea, Fonction: fonction}, IdUser.Id], (error, results) => {
         if (error) {
             return res.status(400).json ({Message: "Message d'erreur"})
         } else {
-            return res.status(200).json ({Message: results})
+            return res.redirect('/user/parameter')
         }
     })
 }

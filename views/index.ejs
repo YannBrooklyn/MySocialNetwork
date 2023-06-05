@@ -6,14 +6,16 @@
             <% if (tokencookie) {%>
             <div class="home-profil">
                 <div class="img-profil">
-                    <img src=images/<%=resultuser[0].Photoprofil %> alt="">
+                    <img src="images/<%=resultuser[0].Photoprofil%>"alt="Photo de profil">
                 </div>
                 <div class="text-profil">
                     
                     <p><%= resultuser[0].Firstname + " " + resultuser[0].Lastname %></p>
-                    <% if (resultuser[0].Location == null) { %>
+                    <% if (resultuser[0].Habitea == null) { %>
                     <% } else { %>
-                        <p>- Habite à <%= resultuser[0].Location %></p>
+                        <p>
+                            - Habite à <%= resultuser[0].Habitea %>
+                        </p>
                     <% } %>
                     <% if (resultuser[0].Datenaissance == null) { %>
                     <% } else { %> 
@@ -23,7 +25,7 @@
                     <% } else { %> 
                         <p>- Fonction : <%= resultuser[0].Fonction %></p>
                     <% } %>
-                    <% if (resultuser[0].Enposte == null) { %>
+                    <% if (resultuser[0].Enpostedepuis == null) { %>
                     <% } else { %>
                         <p>- En poste depuis le</p>
                     <% } %>
