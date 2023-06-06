@@ -9,3 +9,14 @@ table, td, th, thead {
     height: 4vh;
     border-radius: 5vh;
 }
+table {
+    width: 100%;
+}
+
+td, th {
+    height: 5vh;
+}
+
+thead {
+    height:7vh;
+}

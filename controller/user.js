@@ -11,7 +11,8 @@ const thedb = require('../config/dbconfig.js');
 const index = express();
 index.set("view engine", "ejs")
 index.use(express.static('static'))
-
+const multer = require('multer')
+const upload = multer({dest: '/images/'})
 
 
 
@@ -40,6 +41,8 @@ exports.EdiUser = (req, res) => {
         if (error) {
             return res.status(400).json ({Message: "Message d'erreur"})
         } else {
+            console.log(req)
+            upload.single(req.file)
             return res.redirect('/user/parameter')
         }
     })
