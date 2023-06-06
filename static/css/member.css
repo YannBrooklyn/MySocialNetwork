@@ -1,0 +1,11 @@
+table, td, th, thead {
+    border-style: solid;
+    border-width: 0.2vh;
+    border-color: black;
+}
+
+.imgmemberpp {
+    width: 4vh;
+    height: 4vh;
+    border-radius: 5vh;
+}

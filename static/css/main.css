@@ -113,6 +113,8 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
     
 }
 
@@ -124,10 +126,15 @@ main{
     flex-direction: column;
     justify-content: space-evenly;
     border-radius: 20px;
+    margin: 3%;
 }
 
 .thePost {
     background-color: white;
+    width: 80%;
+    border-radius: 10px;
+    padding: 2%;
+    box-shadow: rgba(0, 0, 0, 0.445) 1px 1px 0px 1px;
 }
 
 .imgUserPost {
@@ -175,6 +182,7 @@ main{
     display: flex;
     gap: 1vh;
     flex-direction: column;
+    align-items: center;
 }
 
 .buttonlikecom {

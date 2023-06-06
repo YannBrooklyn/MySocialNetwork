@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/nav.css">
 </head>
 <body>
     <header>
@@ -19,7 +20,7 @@
                     <a href="/login"><li>Connexion</li></a>
                     <% } %>
                     <% if (tokencookie) { %>
-                    <a href="/user/parameter"><li><%= resultuser[0].Firstname + " " + resultuser[0].Lastname %></li></a>
+                    <a href="/user/parameter"><li><img alt="Photo de profil" class="imgnavpp" src="/images/<%=resultuser[0].Photoprofil%>"> <%= resultuser[0].Firstname + " " + resultuser[0].Lastname %></li></a>
                     <a href="/logout"><li>Deconnexion</li></a>
                     <% } %>
                 </ul>

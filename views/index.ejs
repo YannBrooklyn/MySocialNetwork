@@ -11,21 +11,21 @@
                 <div class="text-profil">
                     
                     <p><%= resultuser[0].Firstname + " " + resultuser[0].Lastname %></p>
-                    <% if (resultuser[0].Habitea == null) { %>
+                    <% if (resultuser[0].Habitea == null || resultuser[0].Habitea == "" || resultuser[0].Habitea == " ") { %>
                     <% } else { %>
                         <p>
                             - Habite à <%= resultuser[0].Habitea %>
                         </p>
                     <% } %>
-                    <% if (resultuser[0].Datenaissance == null) { %>
+                    <% if (resultuser[0].Datenaissance == null || resultuser[0].Datenaissance == "" || resultuser[0].Datenaissance == " ") { %>
                     <% } else { %> 
                         <p>- ans</p>
                     <% } %>
-                    <% if (resultuser[0].Fonction == null) { %>
+                    <% if (resultuser[0].Fonction == null || resultuser[0].Fonction == "" || resultuser[0].Fonction == " ") { %>
                     <% } else { %> 
                         <p>- Fonction : <%= resultuser[0].Fonction %></p>
                     <% } %>
-                    <% if (resultuser[0].Enpostedepuis == null) { %>
+                    <% if (resultuser[0].Enpostedepuis == null || resultuser[0].Enpostedepuis == "" || resultuser[0].Enpostedepuis == " ") { %>
                     <% } else { %>
                         <p>- En poste depuis le</p>
                     <% } %>

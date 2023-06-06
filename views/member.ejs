@@ -11,19 +11,17 @@
         <table>
          <thead>
              <tr>
-                 <th>Membres</th>
+                 <th colspan="4">Membres</th>
              </tr>
          </thead>
          <tbody>
-            <th>test</th>
-            <th>test</th>
-            <th>test</th>
-            <th>test</th>
-            <th>test</th>
+            <th>Prénom Nom</th>
+            <th>Rang</th>
+            <th>Habite à</th>
+            <th>Fonction</th>
             <% resultallusers.forEach(function (user) { %> 
                 <tr>
-                    <td><%= user.Firstname%></td>
-                    <td><%= user.Lastname%></td>
+                    <td><img alt="photo de profil" class="imgmemberpp" src="/images/<%=user.Photoprofil%>"> <%=  user.Firstname + " " + user.Lastname %></td>
                     <td><%= user.Rang %></td>
                     <td><%= user.Habitea%></td>
                     <td><%= user.Fonction %></td>
