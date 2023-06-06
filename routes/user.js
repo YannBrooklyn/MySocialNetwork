@@ -21,7 +21,7 @@ router.post('/parameter/delete/:iduser',  UserController.DelUser)
 // Routes pour modifier utilisateur
 router.post('/parameter/edit/:iduser', UserController.EdiUser)
 // Routes pour récupérer tout les utilisateurs
-router.get('/all', UserController.AllUser)
+router.get('/members/all', UserController.AllUser)
 // Routes pour récupérer un utilisateur
 router.get('/get/:iduser', UserController.GetUser)
 // Routes pour récupérer ces propres informations d'utilisateur

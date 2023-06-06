@@ -4,17 +4,36 @@
 <%- include ('include/headerpt2') %>
 
 <main>
-       <table>
-        <thead>
-            <tr>
-                <th>Membres</th>
-            </tr>
-        </thead>
-        <tbody>
-            
-            <tr>
-                <td></td>
-            </tr>
-        </tbody>
-       </table> 
+    <section class="section-left">
+
+    </section>
+    <section class="section-center">
+        <table>
+         <thead>
+             <tr>
+                 <th>Membres</th>
+             </tr>
+         </thead>
+         <tbody>
+            <th>test</th>
+            <th>test</th>
+            <th>test</th>
+            <th>test</th>
+            <th>test</th>
+            <% resultallusers.forEach(function (user) { %> 
+                <tr>
+                    <td><%= user.Firstname%></td>
+                    <td><%= user.Lastname%></td>
+                    <td><%= user.Rang %></td>
+                    <td><%= user.Habitea%></td>
+                    <td><%= user.Fonction %></td>
+                </tr>
+            <% }) %>
+         </tbody>
+        </table> 
+
+    </section>
+    <section class="section-right">
+
+    </section>
 </main>

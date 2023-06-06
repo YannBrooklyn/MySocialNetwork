@@ -7,6 +7,7 @@
 
     </section>
     <section class="section-center">
+        <% if (tokencookie) {%>
         <form action="/user/parameter/edit/<%=IDUserJSON.Id%>" method="post">
             <h4>Prénom</h4>
             <input name="firstname" type="text" value="<%=resultuser[0].Firstname%>">
@@ -35,6 +36,7 @@
         <form action="/user/parameter/delete/<%=IDUserJSON.Id%>" method="post">
             <button style="border-color: red; background-color: black; color: red; border-width: 0.3vh; border-style: solid;">Delete</button>
         </form>
+        <%}%>
     </section>
     <section class="section-right">
 

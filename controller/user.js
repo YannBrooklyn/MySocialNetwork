@@ -49,11 +49,58 @@ exports.EdiUser = (req, res) => {
 
 exports.AllUser = (req, res) => {
     
-    thedb.query('Select IdUser, Firstname, Lastname, Email From User', (error, results) => {
+    thedb.query('Select * From User', (error, resultallusers) => {
         if (error) {
             return res.statu(400).json ({Message: error})
         } else {
-            return res.status(200).json ({Message: results})
+            const IDUserJSON = jwt.decode(req.cookies.tokenUser)
+            const tokencookie = req.cookies.tokenUser
+
+            if (tokencookie) {
+                thedb.query('SELECT * FROM user WHERE Iduser = ?', IDUserJSON.Id, (erroruser, resultuser) => {
+                    if (erroruser) {
+                        console.log(erroruser)
+                    }
+                    else if (!erroruser) {
+                        thedb.query('SELECT * FROM post INNER JOIN user USING(Iduser) ORDER BY datePost DESC', (error, result) => {
+                            if (error) {
+                                res.render('member')
+                            } else {
+                                thedb.query('SELECT * FROM com INNER JOIN user USING(Iduser)', (errcom, resultcom) => {
+                                    if (error) {
+                                        res.render('member')
+                                    } else {           
+                                        thedb.query('SELECT * FROM likepost', (errorlikepost, resultlikepost)=> {
+                                            if (error)  {
+                                                console.log(error)
+                                                res.render('member')
+                                            } else {
+                                                console.log("likeeee", resultlikepost)
+                                                res.render('member' , {result, resultcom, tokencookie ,IDUserJSON, resultuser, resultlikepost, resultallusers})
+                                            }
+                                        })        
+                                    }
+                                })
+                            }
+                        })   
+                    }
+                })
+            }
+            else if (!tokencookie) {
+                thedb.query('SELECT * FROM post INNER JOIN user USING(Iduser) ORDER BY datePost DESC', (error, result) => {
+                    if (error) {
+                        res.render('member')
+                    } else {
+                        thedb.query('SELECT * FROM com INNER JOIN user USING(Iduser)', (errcom, resultcom) => {
+                            if (error) {
+                                res.render('member')
+                            } else {
+                                res.render('member' , {result, resultcom, tokencookie ,IDUserJSON, resultallusers})
+                            }
+                        })
+                    }
+                })
+            }
         }
     })
 }
