@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppression</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="nav-ul-1">
+                <li> <a href="/" class="lien-nav">Accueil</a></li>
+                <li><a href="/admin/panel/membres" class="lien-nav">Membres</a></li>
+                <li><a href="/admin/panel/posts" class="lien-nav">Posts</a></li>
+                <li><a href="/admin/panel/commentaires" class="lien-nav">Commentaires</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <% if (urlAdminDeletePost) { %>
+            <h4>Êtes-vous sûr de vouloir supprimer ce post ?</h4>
+            <div class="deleteButton">
+                <form action="/admin/panel/post/delete/<%= resultsDeletePost[0].idPost %>/confirm" method="post">
+                    <button>Confirmer</button>
+                </form>
+                <form action="/admin/panel/post/delete/<%= resultsDeletePost[0].idPost %>/cancel" method="post">
+                    <button>Annuler</button>
+                </form>
+            </div>
+        <% } %>
+
+
+        <% if (urlAdminDeleteCom) { %>
+            <h4>Êtes-vous sûr de vouloir supprimer ce commentaire ?</h4>
+            <div class="deleteButton">
+                <form action="/admin/panel/com/delete/<%= resultsDeleteCom[0].idCom %>/confirm" method="post">
+                    <button>Confirmer</button>
+                </form>
+                <form action="/admin/panel/com/delete/<%= resultsDeleteCom[0].idCom %>/cancel" method="post">
+                    <button>Annuler</button>
+                </form>
+            </div>
+        <% } %>
+    </main>    
+</body>
+</html>

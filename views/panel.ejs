@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/panel.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul class="nav-ul-1">
+                <li> <a href="/" class="lien-nav">Accueil</a></li>
+                <li><a href="/admin/panel/membres" class="lien-nav">Membres</a></li>
+                <li><a href="/admin/panel/posts" class="lien-nav">Posts</a></li>
+                <li><a href="/admin/panel/commentaires" class="lien-nav">Commentaires</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <% if (urlAdminMembers == "/admin/panel/membres" ) {%>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Membres</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th>IdUser</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Rang</th>
+                    <th>Password</th>
+                    <th>Photo de profil</th>
+                    <th>Bannière</th>
+                    <% results.forEach (function (membres) { %>
+                        <tr>
+                            <td>
+                                <%= membres.Iduser %>
+                            </td>
+                            <td>
+                                <%= membres.Firstname %>
+                            </td>
+                            <td>
+                                <%= membres.Lastname %>
+                            </td>
+                            <td>
+                                <%= membres.Email %>
+                            </td>
+                            <td>
+                                <%= membres.Rang %>
+                            </td>
+                            <td>
+                                <%= membres.Password %>
+                            </td>
+                            <td>
+                                <%= membres.Photoprofil %>
+                            </td>
+                            <td>
+                                <%= membres.Bannerprofil %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+            <% } %>
+
+
+            <% if (urlAdminPost == "/admin/panel/posts" ) {%>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Posts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <th>IdPost</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>TextPost</th>
+                        <th>ImagePost</th>
+                        <% resultsPost.forEach (function (Post) { %>
+                            <tr>
+                                <td>
+                                    <%= Post.idPost %>
+                                </td>
+                                <td>
+                                    <%= Post.Firstname %>
+                                </td>
+                                <td>
+                                    <%= Post.Lastname %>
+                                </td>
+                                <td>
+                                    <%= Post.text %>
+                                </td>
+                                <td>
+                                    <%= Post.image %>
+                                </td>
+                                <td>
+                                    <button><a href="/">Modifier</a></button>
+                                </td>
+                                <td>
+                                    <button><a href="/admin/panel/post/delete/<%=Post.idPost%>">Supprimer</a></button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+
+
+            <% if (urlAdminCom == "/admin/panel/commentaires" ) {%>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Commentaires</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <th>IdCom</th>
+                        <th>IdPost</th>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>TextCom</th>
+                        <% resultsCom.forEach (function (Com) { %>
+                            <tr>
+                                <td>
+                                    <%= Com.idCom %>
+                                </td>
+                                <td>
+                                    <%= Com.idPost %>
+                                </td>
+                                <td>
+                                    <%= Com.Firstname %>
+                                </td>
+                                <td>
+                                    <%= Com.Lastname %>
+                                </td>
+                                <td>
+                                    <%= Com.textCom %>
+                                </td>
+                                <td>
+                                    <button><a href="/">Modifier</a></button>
+                                </td>
+                                <td>
+                                    <button><a href="/admin/panel/com/delete/<%=Com.idCom%>">Supprimer</a></button>
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+    </main>
+</body>
+
+</html>
