@@ -130,6 +130,5 @@ exports.MeUser = (req, res) => {
             return res.status(200).json ({IdUser: decode.Id, Firstname: decode.Firstname, Lastname: decode.Lastname, Email: decode.Email, Rang: decode.Rang})
         }
     })
-    
 }
 

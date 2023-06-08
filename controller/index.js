@@ -1,11 +1,12 @@
-const mysql = require ('mysql');
+const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
-const dotenv = require('dotenv').config({path: "././.env"});
+const dotenv = require('dotenv').config({ path: "././.env" });
 const path = require('path');
 
 const thedb = require('../config/dbconfig.js');
 let cookieparser = require('cookie-parser');
+const { error } = require('console');
 
 const RegexSecureFLN = /^([A-Za-z\d]){3,50}([._-]){0,2}$/;
 const RegexSecurePW = /^([A-Za-z\d]){3,255}|([._-]){3,255}$/;
@@ -19,9 +20,9 @@ exports.Index = (req, res) => {
     console.log(reqTextArea)
     const IdUser = jwt.decode(req.cookies.tokenUser)
     console.log(req.cookies.tokenUser)
-    const textpost = {text: reqTextArea, Iduser: IdUser.Id}
+    const textpost = { text: reqTextArea, Iduser: IdUser.Id }
 
-    if (!RegexSecureText.test(reqTextArea)){
+    if (!RegexSecureText.test(reqTextArea)) {
         return res.redirect('/')
     }
     else if (RegexSecureText.test(reqTextArea)) {
@@ -34,7 +35,7 @@ exports.Index = (req, res) => {
                         return console.log("erreurrr", error)
                     } else {
                         return res.redirect('/')
-                        
+
                     }
                 })
             }
@@ -46,7 +47,7 @@ exports.IndexCom = (req, res) => {
     console.log("commmeeee", req.params.params)
     const reqInputCom = req.body.inputcomments
     const IdUser = jwt.decode(req.cookies.tokenUser)
-    const textComments = {textCom: reqInputCom, Iduser: IdUser.Id, idPost: req.params.params}
+    const textComments = { textCom: reqInputCom, Iduser: IdUser.Id, idPost: req.params.params }
     thedb.query('INSERT INTO com SET ?', textComments, (error, result) => {
         if (error) {
             return console.log("error", error)
@@ -65,7 +66,7 @@ exports.IndexCom = (req, res) => {
 
 exports.LikePost = (req, res) => {
     const IdUser = jwt.decode(req.cookies.tokenUser)
-    const LikePostInfo = {Iduser: IdUser.Id, idPost: parseInt(req.params.paramsPost)}
+    const LikePostInfo = { Iduser: IdUser.Id, idPost: parseInt(req.params.paramsPost) }
     thedb.query('SELECT * FROM likepost WHERE Iduser = ? AND idPost = ?', [IdUser.Id, parseInt(req.params.paramsPost)], (error, result) => {
         if (result.length > 0) {
             thedb.query('DELETE FROM likePost WHERE Iduser = ? AND idPost = ?', [IdUser.Id, req.params.paramsPost], (errordel, resultdel) => {
@@ -95,15 +96,15 @@ exports.LikePost = (req, res) => {
 }
 
 exports.LikeCom = (req, res) => {
-    
+
     const IdUser = jwt.decode(req.cookies.tokenUser)
-    const LikeInfo = {idCom: parseInt(req.params.params1), Iduser: IdUser.Id, idPost: parseInt(req.params.params2)}
+    const LikeInfo = { idCom: parseInt(req.params.params1), Iduser: IdUser.Id, idPost: parseInt(req.params.params2) }
 
     thedb.query('SELECT idLikeCom FROM likecom WHERE idCom = ? AND Iduser = ? AND idPost = ?', [parseInt(req.params.params1), parseInt(IdUser.Id), parseInt(req.params.params2)], (error, resultverif) => {
         console.log("resultverif", resultverif)
         console.log("resultverif", error)
-        if(resultverif.length < 1) {
-            thedb.query('INSERT INTO likecom SET ?', LikeInfo, (errorliked, resultliked) =>{
+        if (resultverif.length < 1) {
+            thedb.query('INSERT INTO likecom SET ?', LikeInfo, (errorliked, resultliked) => {
                 if (errorliked) {
                     console.log("erreur avec like", errorliked)
                     console.log('rrrrrrrrrrrrrrrrrrrr', resultliked)
@@ -131,12 +132,12 @@ exports.LikeCom = (req, res) => {
 
     })
 
-    
+
 }
 
 exports.RegUser = (req, res) => {
 
-    const{firstname, lastname, email, password, passwordconfirm} = req.body
+    const { firstname, lastname, email, password, passwordconfirm } = req.body
 
     if (!RegexSecureFLN.test(req.body.firstname && req.body.lastname) || !RegexSecurePW.test(req.body.password && req.body.passwordconfirm) || !RegexSecureEmail.test(req.body.email)) {
         return res.redirect('/register')
@@ -159,11 +160,11 @@ exports.RegUser = (req, res) => {
                 const salt = bcryptjs.genSaltSync(8)
                 const hashedpassword = bcryptjs.hashSync(password, salt)
                 console.log('Voici le mdp hasher ' + hashedpassword)
-                
-                const newUser = {Firstname: firstname, Lastname: lastname, Email: email, Password: hashedpassword}
+
+                const newUser = { Firstname: firstname, Lastname: lastname, Email: email, Password: hashedpassword }
                 thedb.query('INSERT INTO user SET ?', newUser, (error, results) => {
                     if (error) {
-                        console.log("Une erreur s'est produite "+ error)
+                        console.log("Une erreur s'est produite " + error)
                         return res.redirect('/register')
                     } else {
                         console.log("Enregistrement réussi ", results)
@@ -181,32 +182,114 @@ exports.LogUser = (req, res) => {
     console.log(req.body)
     const email = req.body.email
     const password = req.body.password
-    
-    
-        thedb.query('Select * From User Where Email = ?', [email], (error, results) => {
-            if (error) {
-                return res.status(500).json ({error: 'failed to login'})
+
+
+    thedb.query('Select * From User Where Email = ?', [email], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'failed to login' })
+        }
+        else if (results.length === 0) {
+            return res.status(401).json({ error: 'Invalid email' })
+        }
+        else {
+            const bcryptjsverify = bcryptjs.compareSync(password, results[0].Password)
+            if (bcryptjsverify == true) {
+                console.log("result login", results)
+
+                const token = jwt.sign({ Id: results[0].Iduser }, process.env.J_SECRET)
+
+                console.log('you loged', token)
+                res.cookie("tokenUser", token)
+
+                return res.redirect('/')
             }
-            else if (results.length === 0) {
-                return res.status(401).json ({error: 'Invalid email'})
+            else if (bcryptjsverify == false) {
+                res.status(400).json({ Message: "Wrong password" })
             }
-            else {
-                const bcryptjsverify = bcryptjs.compareSync(password, results[0].Password)
-                if (bcryptjsverify == true) {
-                    console.log("result login",results)
-                    
-                    const token = jwt.sign({Id: results[0].Iduser}, process.env.J_SECRET)
-                    
-                    console.log('you loged', token)
-                    res.cookie("tokenUser", token)
-                    
-                    return res.redirect('/')
-                }
-                else if (bcryptjsverify == false) {
-                    res.status(400).json ({Message: "Wrong password"})
-                }
-            }
-        })
-    
+        }
+    })
 }
 
+exports.Admin = (req, res) => {
+    console.log(req.originalUrl);
+    const urlAdminMembers = req.originalUrl;
+    thedb.query('SELECT * FROM user ORDER BY Iduser', (errorMember, results) => {
+        if (errorMember) {
+            console.log('Error admin member', error);
+        } else if (!errorMember) {
+            const urlAdminPost = req.originalUrl;
+            thedb.query('SELECT * FROM post INNER JOIN user USING (Iduser) ORDER BY idPost DESC', (errorPost, resultsPost) => {
+                if (errorPost) {
+                    console.log('Error admin post', errorPost);
+                } else if (!errorPost) {
+                    const urlAdminCom = req.originalUrl;
+                    thedb.query('SELECT * FROM com INNER JOIN user USING (Iduser) ORDER BY idCom DESC', (errorCom, resultsCom) => {
+                        if (errorCom) {
+                            console.log('Error admin com', errorCom);
+                        } else if (!errorCom) {
+                            res.render('panel', { results, urlAdminMembers, resultsPost, urlAdminPost, resultsCom, urlAdminCom })                           
+                        }
+                    })
+                }
+            })
+        } else {
+            const urlAdminPost = req.originalUrl;
+            thedb.query('SELECT * FROM post ORDER BY idPost DESC', (errorPost, resultsPost) => {
+                if (errorPost) {
+                    console.log('Error admin post', errorPost);
+                } else if (!errorPost) {
+                    res.render('panel', { resultsPost, urlAdminPost })
+                }
+            })
+        }
+    })
+}
+
+exports.AdminDeleteConfirm = (req, res) => {
+    const idPostDelete = req.params.idPost;
+    const idComDelete = req.params.idCom;
+    if (req.originalUrl == "/admin/panel/post/delete/" + req.params.idPost + "/confirm") {
+        thedb.query('DELETE FROM post WHERE idPost =?', idPostDelete, (errorDeletePost, resultsDeletePostConfim) => {
+            if (errorDeletePost) {
+                console.log('Error admin delete post', errorDeletePost);
+            } else if (!errorDeletePost){
+                res.redirect('/admin/panel/posts')
+            } 
+        })
+    } else if (req.originalUrl == "/admin/panel/com/delete/" + req.params.idCom + "/confirm") {
+        thedb.query('DELETE FROM com WHERE idCom =?', idComDelete, (errorDeleteCom, resultsDeleteComConfim) => {
+            if (errorDeleteCom) {
+                console.log('Error admin delete com', errorDeleteCom);
+            } else if (!errorDeleteCom){
+                res.redirect('/admin/panel/commentaires')
+            }
+        })       
+    }
+}
+
+exports.AdminDelete= (req, res) => {
+    const idPostDelete = req.params.idPost;
+    let urlAdminDeletePost = "";
+    let urlAdminDeleteCom = "";
+    if (req.originalUrl == "/admin/panel/post/delete/" + req.params.idPost) {
+        thedb.query('SELECT idPost FROM post WHERE idPost =?', idPostDelete, (errorDeletePost, resultsDeletePost) => {
+            if (errorDeletePost) {
+                console.log('Error admin delete post', errorDeletePost);
+            } else if (!errorDeletePost){
+                urlAdminDeletePost = req.originalUrl;
+                res.render('delete', { resultsDeletePost, urlAdminDeletePost, urlAdminDeleteCom })
+            }
+        })       
+    } else if (req.originalUrl == "/admin/panel/com/delete/" + req.params.idCom) {
+        console.log(req.params.idCom);
+        const idComDelete = req.params.idCom;
+        thedb.query('SELECT idCom FROM com WHERE idCom =?', idComDelete, (errorDeleteCom, resultsDeleteCom) => {
+            if (errorDeleteCom) {
+                console.log('Error admin delete Com', errorDeleteCom);
+            } else if (!errorDeleteCom){
+                urlAdminDeleteCom = req.originalUrl;
+                res.render('delete', { resultsDeleteCom, urlAdminDeleteCom, urlAdminDeletePost })
+            }
+        })       
+    }
+}

@@ -175,10 +175,38 @@ router.get('/register', (req, res) => {
     }
 })
 
+// Route pour s'enregistrer sur le site
 router.post('/register', IndexController.RegUser);
 
+// Route pour se déconnecter
 router.get('/logout', (req,res) => {
     res.clearCookie("tokenUser")
     res.redirect('/')
 })
+
+// Route pour page admin
+router.get('/admin/panel', IndexController.Admin);
+
+// Route pour tous les membres dans la page admin
+router.get('/admin/panel/membres', IndexController.Admin);
+
+// Route pour tous les posts dans la page admin
+router.get('/admin/panel/posts', IndexController.Admin);
+
+// Route pour tous les commentaires dans la page admin
+router.get('/admin/panel/commentaires', IndexController.Admin);
+
+// Route pour supprimer un post
+router.get('/admin/panel/post/delete/:idPost', IndexController.AdminDelete)
+
+// Route pour confirmer la suppression d'un post
+router.post('/admin/panel/post/delete/:idPost/confirm', IndexController.AdminDeleteConfirm);
+
+// Route pour supprimer un commentaire
+router.get('/admin/panel/com/delete/:idCom', IndexController.AdminDelete)
+
+// Route pour confirmer la suppression d'un commentaire
+router.post('/admin/panel/com/delete/:idCom/confirm', IndexController.AdminDeleteConfirm);
+
+
 module.exports = router
