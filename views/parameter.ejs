@@ -26,13 +26,15 @@
             <input name="datenaissance" type="date" value="<%=resultuser[0].Datenaissance%>">
             <h4>En poste depuis</h4>
             <input name="enpostedepuis" type="date" value="<%=resultuser[0].Enpostedepuis%>">
-            <h4>Photo de profil</h4>
-            <input name="photoprofil" type="file">
             <h4>Bannière de profil</h4>
             <input name="bannerprofil" type="file">
             <button type="submit">Modifier</button>
         </form>
-
+        <form action="/test" method="post" enctype="multipart/form-data">
+            <h4>Photo de profil</h4>
+            <input name="testavatar" type="file">
+            <button type="submit">click</button>
+        </form>
         <form action="/user/parameter/delete/<%=IDUserJSON.Id%>" method="post">
             <button style="border-color: red; background-color: black; color: red; border-width: 0.3vh; border-style: solid;">Delete</button>
         </form>
@@ -42,3 +44,5 @@
 
     </section>
 </main>
+</body>
+</html>

@@ -34,14 +34,16 @@ exports.EdiUser = (req, res) => {
     const IdUser = jwt.decode(req.cookies.tokenUser)
     console.log("test", IdUser)
     console.log('erreur')
-    const {firstname, lastname, email, password, photoprofil, bannerprofil, datenaissance, enpostedepuis, habitea, fonction} = req.body
-    const salt = bcryptjs.genSaltSync(8)
-    const hashedpassword = bcryptjs.hashSync(password, salt)
-    thedb.query('UPDATE user SET ? WHERE IdUser = ?', [{Firstname: firstname, Lastname: lastname, Email: email, Password: hashedpassword, Photoprofil: photoprofil, Bannerprofil: bannerprofil, Datenaissance: datenaissance, Enpostedepuis: enpostedepuis, Habitea: habitea, Fonction: fonction}, IdUser.Id], (error, results) => {
+    // const {firstname, lastname, email, password, photoprofil, bannerprofil, datenaissance, enpostedepuis, habitea, fonction} = req.body
+    const {photoprofil} = req.body
+    console.log("test", req.body.firstname)
+    // const salt = bcryptjs.genSaltSync(8)
+    // const hashedpassword = bcryptjs.hashSync(password, salt)
+    thedb.query('UPDATE user SET ? WHERE IdUser = ?', [{Photoprofil: photoprofil}, IdUser.Id], (error, results) => {
         if (error) {
             return res.status(400).json ({Message: "Message d'erreur"})
         } else {
-            console.log(req)
+            console.log(req.body.photoprofil)
             upload.single(req.file)
             return res.redirect('/user/parameter')
         }
@@ -136,3 +138,53 @@ exports.MeUser = (req, res) => {
     
 }
 
+exports.ShoUser = (req, res) => {
+    const IDUserJSON = jwt.decode(req.cookies.tokenUser)
+    const tokencookie = req.cookies.tokenUser
+    if (tokencookie) {
+        thedb.query('SELECT * FROM user WHERE Iduser = ?', IDUserJSON.Id, (erroruser, resultuser) => {
+            if (erroruser) {
+                console.log(erroruser)
+            }
+            else if (!erroruser) {
+                console.log(resultuser)
+                thedb.query('SELECT * FROM post INNER JOIN user USING(Iduser) ORDER BY datePost DESC', (error, result) => {
+                    if (error) {
+                        res.render('shoutbox')
+                    } else {
+                        thedb.query('SELECT * FROM com INNER JOIN user USING(Iduser)', (errcom, resultcom) => {
+                            if (error) {
+                                res.render('shoutbox')
+                            } else {           
+                                thedb.query('SELECT * FROM likepost', (errorlikepost, resultlikepost)=> {
+                                    if (error)  {
+                                        console.log(error)
+                                        res.render('shoutbox')
+                                    } else {
+                                        console.log("likeeee", resultlikepost)
+                                        res.render('shoutbox' , {result, resultcom, tokencookie ,IDUserJSON, resultuser, resultlikepost})
+                                    }
+                                })        
+                            }
+                        })
+                    }
+                })   
+            }
+        })
+    }
+    else if (!tokencookie) {
+        thedb.query('SELECT * FROM post INNER JOIN user USING(Iduser) ORDER BY datePost DESC', (error, result) => {
+            if (error) {
+                res.render('shoutbox')
+            } else {
+                thedb.query('SELECT * FROM com INNER JOIN user USING(Iduser)', (errcom, resultcom) => {
+                    if (error) {
+                        res.render('shoutbox')
+                    } else {
+                        res.render('shoutbox' , {result, resultcom, tokencookie ,IDUserJSON})
+                    }
+                })
+            }
+        })
+    }
+}

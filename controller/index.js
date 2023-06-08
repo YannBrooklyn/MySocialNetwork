@@ -98,7 +98,7 @@ exports.LikeCom = (req, res) => {
     
     const IdUser = jwt.decode(req.cookies.tokenUser)
     const LikeInfo = {idCom: parseInt(req.params.params1), Iduser: IdUser.Id, idPost: parseInt(req.params.params2)}
-
+    console.log(req)
     thedb.query('SELECT idLikeCom FROM likecom WHERE idCom = ? AND Iduser = ? AND idPost = ?', [parseInt(req.params.params1), parseInt(IdUser.Id), parseInt(req.params.params2)], (error, resultverif) => {
         console.log("resultverif", resultverif)
         console.log("resultverif", error)

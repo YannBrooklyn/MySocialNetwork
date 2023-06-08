@@ -6,9 +6,12 @@ const thedb = require('../config/dbconfig.js')
 let jwt = require('jsonwebtoken')
 let cookieparser = require('cookie-parser')
 
+const multer = require('multer')
+const upload = multer({dest: 'images/'})
 
 
 router.get('/', (req, res) => {
+    
     const IDUserJSON = jwt.decode(req.cookies.tokenUser)
     const tokencookie = req.cookies.tokenUser
     if (tokencookie) {
@@ -61,6 +64,10 @@ router.get('/', (req, res) => {
 
 router.post ('/' , IndexController.Index)
 
+router.post ('/test', upload.single('testavatar'), function(req, res, nex) {
+    console.log(req.file)
+    console.log(req.body.testavatar)
+})
 
 // Route pour Login
 router.get('/login', (req, res) => {
@@ -174,6 +181,8 @@ router.get('/register', (req, res) => {
         })
     }
 })
+
+
 
 router.post('/register', IndexController.RegUser);
 

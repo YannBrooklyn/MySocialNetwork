@@ -13,7 +13,7 @@ let thedb = require('../config/dbconfig.js')
 
 
 
-
+router.get('/shoutbox', UserController.ShoUser)
 
 
 // Routes pour supprimer un utilisateur
