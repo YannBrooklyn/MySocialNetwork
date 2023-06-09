@@ -7,7 +7,7 @@ let jwt = require('jsonwebtoken')
 let cookieparser = require('cookie-parser')
 
 const multer = require('multer')
-const upload = multer({dest: 'images/'})
+const upload = multer({dest: 'static/images/'})
 
 
 router.get('/', (req, res) => {
@@ -64,10 +64,6 @@ router.get('/', (req, res) => {
 
 router.post ('/' , IndexController.Index)
 
-router.post ('/test', upload.single('testavatar'), function(req, res, nex) {
-    console.log(req.file)
-    console.log(req.body.testavatar)
-})
 
 // Route pour Login
 router.get('/login', (req, res) => {

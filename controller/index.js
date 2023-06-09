@@ -3,16 +3,14 @@ const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const dotenv = require('dotenv').config({ path: "././.env" });
 const path = require('path');
-
 const thedb = require('../config/dbconfig.js');
 let cookieparser = require('cookie-parser');
-const { error } = require('console');
 
 const RegexSecureFLN = /^([A-Za-z\d]){3,50}([._-]){0,2}$/;
 const RegexSecurePW = /^([A-Za-z\d]){3,255}|([._-]){3,255}$/;
 const RegexSecureEmail = /^([-._A-Za-z\d]){3,100}@([a-zA-Z]){3,15}\.([a-zA-Z]){3}$/
-
 const RegexSecureText = /^([A-Za-z\d]){3,100}([._-]){0,100}$/;
+
 
 exports.Index = (req, res) => {
     console.log(req.body)

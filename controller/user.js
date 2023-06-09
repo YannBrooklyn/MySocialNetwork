@@ -11,10 +11,9 @@ const thedb = require('../config/dbconfig.js');
 const index = express();
 index.set("view engine", "ejs")
 index.use(express.static('static'))
-const multer = require('multer')
-const upload = multer({dest: '/images/'})
 
-
+const multer  = require('multer')
+const upload = multer({ dest: 'static/images/' })
 
 exports.DelUser = (req, res) => {
     const IDuserme = jwt.decode(req.cookies.tokenUser)
@@ -30,21 +29,22 @@ exports.DelUser = (req, res) => {
     })
 }
 
-exports.EdiUser = (req, res) => {
+exports.EdiUser =  (req, res) => {
     const IdUser = jwt.decode(req.cookies.tokenUser)
     console.log("test", IdUser)
     console.log('erreur')
+    
     // const {firstname, lastname, email, password, photoprofil, bannerprofil, datenaissance, enpostedepuis, habitea, fonction} = req.body
     const {photoprofil} = req.body
-    console.log("test", req.body.firstname)
+     const test = req.file.filename
+     console.log(req)
     // const salt = bcryptjs.genSaltSync(8)
     // const hashedpassword = bcryptjs.hashSync(password, salt)
-    thedb.query('UPDATE user SET ? WHERE IdUser = ?', [{Photoprofil: photoprofil}, IdUser.Id], (error, results) => {
+    
+    thedb.query('UPDATE user SET ? WHERE IdUser = ?', [{Photoprofil: test}, IdUser.Id], (error, results) => {
         if (error) {
             return res.status(400).json ({Message: "Message d'erreur"})
         } else {
-            console.log(req.body.photoprofil)
-            upload.single(req.file)
             return res.redirect('/user/parameter')
         }
     })

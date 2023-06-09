@@ -9,7 +9,8 @@ const middleware = require('../middleware/middleware.js');
 let jwt = require('jsonwebtoken')
 
 let thedb = require('../config/dbconfig.js')
-
+const multer  = require('multer')
+const upload = multer({ dest: 'static/images/' })
 
 
 
@@ -19,7 +20,7 @@ router.get('/shoutbox', UserController.ShoUser)
 // Routes pour supprimer un utilisateur
 router.post('/parameter/delete/:iduser',  UserController.DelUser)
 // Routes pour modifier utilisateur
-router.post('/parameter/edit/:iduser', UserController.EdiUser)
+router.post('/parameter/edit/:iduser', upload.single('testavatar'), UserController.EdiUser)
 // Routes pour récupérer tout les utilisateurs
 router.get('/members/all', UserController.AllUser)
 // Routes pour récupérer un utilisateur
