@@ -9,8 +9,8 @@
         <section class="section-center">
            
             <div class="headerprofil">
-                <img class="bannerprofil" src="/profilimg/bannertest.jpg" alt="Bannière Profil">
-                <img class="imgprofil" src="/images/man-g9f85c922a_1280.jpg" alt="">
+                <img class="bannerprofil" src="/profilimg/<%= resultuser[0].Bannerprofil %>" alt="Bannière Profil">
+                <img class="imgprofil" src="/images/<%= resultuser[0].Photoprofil %>" alt="Photo de profil">
                 <div class="statsprofil">
                     <h4>Post</h4>
                     <h4>???</h4>
@@ -21,38 +21,50 @@
                     
                 </div>
                 <div class="optionprofil">
-                    <button class="buttonprofiloption">Post</h4>
-                    <button class="buttonprofiloption">Commentaire</h4>
-                    <button class="buttonprofiloption">Like</h4>
+                    <button class="buttonprofiloption">Post</button>
+                    <button class="buttonprofiloption">Commentaire</button>
+                    <button class="buttonprofiloption">Like</button>
                 </div>
             </div>
             <section class="mainprofil">
-                <div class="divprofilpost"></div>
-                <div class="divprofilcom"></div>
+                <div class="divprofilpost">
+                    <% resultProfilPost.forEach(function (profilPost) {%>
+                        <h4><%= profilPost.Firstname + " " + profilPost.Lastname %></h4>
+                        <h5><%= profilPost.text %></h5>
+                        <h5><%= profilPost.datePost %></h5>
+                        <% resultcom.forEach(function(com) { %>
+                            <% if (com.idPost == profilPost.idPost) {%>
+                                <h5>
+                                    <%= com.Firstname + " " + com.Lastname %>
+                                </h5>
+                                <h5>
+                                    <%= com.textCom %>
+                                </h5>
+                                <form action="/like/com/<%=com.idCom%>/post/<%=profilPost.idPost%>" method="post">
+                                    <button name="like" class="buttonlikecom" type="submit"><h5 class="h5likecom">&#10084;</h5></button>
+                                </form>
+                                <hr>
+                            <% } %>
+                        <% }) %>
+                    <% }) %>
+                </div>
+                <div class="divprofilcom">
+                    <% resultcom.forEach (function (myCom) {%>
+                        <% if (myCom.Iduser == IDUserJSON.Id) {%>
+                            <h4>
+                                <%= myCom.Firstname + " " + myCom.Lastname %>
+                            </h4>
+                            <h5>
+                                <%= myCom.textCom %>
+                            </h5>
+                        <% } %>
+                    <% }) %>
+                </div>
                 <div class="divprofillike"></div>
             </section>
         </section>
         <section class="section-right">
-            <script defer>
-                let HostName = 'http://localhost:3102'
-                function popuplogin() {
-                    history.pushState({}, '', HostName + "/login")
-                }
-            </script>
-            <div class="contentlogreg">
-                <button onclick="popuplogin()"  data-target="#popuplogin" class="buttonlog">Login</button>
-                <button class="buttonreg">Register</button>
-                
-            </div>
-            <form action="login" name="Formulaire Login" method="post">
-                <div class="popuplogin" id="popuplogin" tabindex="-1" aria-hidden="true" >
-                    <h4>Email</h4>
-                    <input id="inputlogemail"  name="email" type="email">
-                    <h4>Mot de passe</h4>
-                    <input id="inputlogpw" name="password" type="password">
-                    <button id="buttonlog" href="/">Connexion</button>
-                </div>
-            </form>
+            
         </section>
 
 
