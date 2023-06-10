@@ -199,17 +199,31 @@ router.get('/admin/panel/posts', IndexController.Admin);
 // Route pour tous les commentaires dans la page admin
 router.get('/admin/panel/commentaires', IndexController.Admin);
 
+
 // Route pour supprimer un post
 router.get('/admin/panel/post/delete/:idPost', IndexController.AdminDelete)
 
 // Route pour confirmer la suppression d'un post
 router.post('/admin/panel/post/delete/:idPost/confirm', IndexController.AdminDeleteConfirm);
 
+// Route pour modifier un post
+router.get('/admin/panel/post/edit/:idPost', IndexController.AdminEdit);
+
+// Route pour confirmer la modification d'un post
+router.post('/admin/panel/post/edit/:idPost/confirm', IndexController.AdminEditConfirm);
+
+
+
 // Route pour supprimer un commentaire
-router.get('/admin/panel/com/delete/:idCom', IndexController.AdminDelete)
+router.get('/admin/panel/com/delete/:idCom', IndexController.AdminDelete);
 
 // Route pour confirmer la suppression d'un commentaire
 router.post('/admin/panel/com/delete/:idCom/confirm', IndexController.AdminDeleteConfirm);
 
+// Route pour modifier un commentaire
+router.get('/admin/panel/com/edit/:idCom', IndexController.AdminEdit);
+
+// Route pour confirmer la modification d'un commentaire
+router.post('/admin/panel/com/edit/:idCom/confirm', IndexController.AdminEditConfirm);
 
 module.exports = router

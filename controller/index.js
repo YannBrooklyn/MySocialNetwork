@@ -9,7 +9,8 @@ let cookieparser = require('cookie-parser');
 const RegexSecureFLN = /^([A-Za-z\d]){3,50}([._-]){0,2}$/;
 const RegexSecurePW = /^([A-Za-z\d]){3,255}|([._-]){3,255}$/;
 const RegexSecureEmail = /^([-._A-Za-z\d]){3,100}@([a-zA-Z]){3,15}\.([a-zA-Z]){3}$/
-const RegexSecureText = /^([A-Za-z\d]){3,100}([._-]){0,100}$/;
+
+const RegexSecureText = /^([A-Za-z\d\s\']){3,100}([!?,:._-]){0,100}$/;
 
 
 exports.Index = (req, res) => {
@@ -33,7 +34,6 @@ exports.Index = (req, res) => {
                         return console.log("erreurrr", error)
                     } else {
                         return res.redirect('/')
-
                     }
                 })
             }
@@ -46,20 +46,25 @@ exports.IndexCom = (req, res) => {
     const reqInputCom = req.body.inputcomments
     const IdUser = jwt.decode(req.cookies.tokenUser)
     const textComments = { textCom: reqInputCom, Iduser: IdUser.Id, idPost: req.params.params }
-    thedb.query('INSERT INTO com SET ?', textComments, (error, result) => {
-        if (error) {
-            return console.log("error", error)
-        } else {
-            thedb.query('Select * FROM com', (error, result) => {
-                if (error) {
-                    console.log("erreur", error)
-                } else {
-                    res.redirect('/')
-                    return console.log('resumt', result)
-                }
-            })
-        }
-    })
+    if (!RegexSecureText.test(reqInputCom)) {
+        return res.redirect('/')
+    }
+    else if (RegexSecureText.test(reqInputCom)) {
+        thedb.query('INSERT INTO com SET ?', textComments, (error, result) => {
+            if (error) {
+                return console.log("error", error)
+            } else {
+                thedb.query('Select * FROM com', (error, result) => {
+                    if (error) {
+                        console.log("erreur", error)
+                    } else {
+                        res.redirect('/')
+                        return console.log('resumt', result)
+                    }
+                })
+            }
+        })
+    }
 }
 
 exports.LikePost = (req, res) => {
@@ -225,7 +230,7 @@ exports.Admin = (req, res) => {
                         if (errorCom) {
                             console.log('Error admin com', errorCom);
                         } else if (!errorCom) {
-                            res.render('panel', { results, urlAdminMembers, resultsPost, urlAdminPost, resultsCom, urlAdminCom })                           
+                            res.render('panel', { results, urlAdminMembers, resultsPost, urlAdminPost, resultsCom, urlAdminCom })
                         }
                     })
                 }
@@ -250,22 +255,22 @@ exports.AdminDeleteConfirm = (req, res) => {
         thedb.query('DELETE FROM post WHERE idPost =?', idPostDelete, (errorDeletePost, resultsDeletePostConfim) => {
             if (errorDeletePost) {
                 console.log('Error admin delete post', errorDeletePost);
-            } else if (!errorDeletePost){
+            } else if (!errorDeletePost) {
                 res.redirect('/admin/panel/posts')
-            } 
+            }
         })
     } else if (req.originalUrl == "/admin/panel/com/delete/" + req.params.idCom + "/confirm") {
         thedb.query('DELETE FROM com WHERE idCom =?', idComDelete, (errorDeleteCom, resultsDeleteComConfim) => {
             if (errorDeleteCom) {
                 console.log('Error admin delete com', errorDeleteCom);
-            } else if (!errorDeleteCom){
+            } else if (!errorDeleteCom) {
                 res.redirect('/admin/panel/commentaires')
             }
-        })       
+        })
     }
 }
 
-exports.AdminDelete= (req, res) => {
+exports.AdminDelete = (req, res) => {
     const idPostDelete = req.params.idPost;
     let urlAdminDeletePost = "";
     let urlAdminDeleteCom = "";
@@ -273,21 +278,72 @@ exports.AdminDelete= (req, res) => {
         thedb.query('SELECT idPost FROM post WHERE idPost =?', idPostDelete, (errorDeletePost, resultsDeletePost) => {
             if (errorDeletePost) {
                 console.log('Error admin delete post', errorDeletePost);
-            } else if (!errorDeletePost){
+            } else if (!errorDeletePost) {
                 urlAdminDeletePost = req.originalUrl;
                 res.render('delete', { resultsDeletePost, urlAdminDeletePost, urlAdminDeleteCom })
             }
-        })       
+        })
     } else if (req.originalUrl == "/admin/panel/com/delete/" + req.params.idCom) {
         console.log(req.params.idCom);
         const idComDelete = req.params.idCom;
         thedb.query('SELECT idCom FROM com WHERE idCom =?', idComDelete, (errorDeleteCom, resultsDeleteCom) => {
             if (errorDeleteCom) {
                 console.log('Error admin delete Com', errorDeleteCom);
-            } else if (!errorDeleteCom){
+            } else if (!errorDeleteCom) {
                 urlAdminDeleteCom = req.originalUrl;
                 res.render('delete', { resultsDeleteCom, urlAdminDeleteCom, urlAdminDeletePost })
             }
-        })       
+        })
+    }
+}
+
+exports.AdminEdit = (req, res) => {
+    const idPostEdit = req.params.idPost;
+    const idComEdit = req.params.idCom;
+    let urlAdminEditPost = "";
+    let urlAdminEditCom = "";
+    if (req.originalUrl == "/admin/panel/post/edit/" + req.params.idPost) {
+        thedb.query('SELECT * FROM post WHERE idPost =?', idPostEdit, (errorEditPost, resultsEditPost) => {
+            if (errorEditPost) {
+                console.log('Error admin edit post', errorEditPost);
+            } else if (!errorEditPost) {
+                urlAdminEditPost = req.originalUrl;
+                res.render('edit', { resultsEditPost, urlAdminEditPost, urlAdminEditCom })
+            }
+        })
+    } else if (req.originalUrl == "/admin/panel/com/edit/" + req.params.idCom) {
+        console.log(req.params.idCom);
+        thedb.query('SELECT * FROM com WHERE idCom =?', idComEdit, (errorEditCom, resultsEditCom) => {
+            if (errorEditCom) {
+                console.log('Error admin edit Com', errorEditCom);
+            } else if (!errorEditCom) {
+                urlAdminEditCom = req.originalUrl;
+                res.render('edit', { resultsEditCom, urlAdminEditCom, urlAdminEditPost })
+            }
+        })
+    }
+}
+
+exports.AdminEditConfirm = (req, res) => {
+    const idPostEdit = req.params.idPost;
+    const idComEdit = req.params.idCom;
+    const textPost = req.body.textPost;
+    const textCom = req.body.textCom;
+    if (req.originalUrl == "/admin/panel/post/edit/" + req.params.idPost + "/confirm") {
+        thedb.query('UPDATE post SET ? WHERE idPost =?', [{text:textPost}, idPostEdit], (errorEditPost, resultsEditPostConfim) => {
+            if (errorEditPost) {
+                console.log('Error admin edit post', errorEditPost);
+            } else if (!errorEditPost) {
+                res.redirect('/admin/panel/posts')
+            }
+        })
+    } else if (req.originalUrl == "/admin/panel/com/edit/" + req.params.idCom + "/confirm") {
+        thedb.query('UPDATE com SET ? WHERE idCom =?', [{textCom:textCom}, idComEdit], (errorEditCom, resultsEditComConfim) => {
+            if (errorEditCom) {
+                console.log('Error admin edit com', errorEditCom);
+            } else if (!errorEditCom) {
+                res.redirect('/admin/panel/commentaires')
+            }
+        })
     }
 }

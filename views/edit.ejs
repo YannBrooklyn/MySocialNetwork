@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,6 +8,7 @@
     <title>Modification du post</title>
 
 </head>
+
 <body>
     <header>
         <nav>
@@ -18,6 +20,28 @@
             </ul>
         </nav>
     </header>
-    
+    <main>
+        <% if (urlAdminEditPost) { %>
+            <h4><%= resultsEditPost[0].idPost %></h4>
+            <h4>Prénom & Nom</h4>
+            <form action="/admin/panel/post/edit/<%= resultsEditPost[0].idPost %>/confirm" method="post">
+                <textarea name="textPost" id="" cols="30" rows="10"><%= resultsEditPost[0].text %></textarea>
+                <button type="submit">Confirmer</button>
+            </form>
+            <button><a href="/admin/panel/post">Annuler</a></button>
+        <% } %>
+
+        <% if (urlAdminEditCom) { %>
+            <h4><%= resultsEditCom[0].idCom %></h4>
+            <h4>Prénom & Nom</h4>
+            <h4><%= resultsEditCom[0].idPost %></h4>
+            <form action="/admin/panel/com/edit/<%= resultsEditCom[0].idCom %>/confirm" method="post">
+                <textarea name="textCom" id="" cols="30" rows="10"><%= resultsEditCom[0].textCom %></textarea>
+                <button type="submit">Confirmer</button>
+            </form>
+            <button><a href="/admin/panel/commentaires">Annuler</a></button>
+        <% } %>
+    </main>
 </body>
+
 </html>

@@ -28,7 +28,7 @@ router.get('/get/:iduser', UserController.GetUser)
 // Routes pour récupérer ces propres informations d'utilisateur
 router.get('/me', UserController.MeUser)
 
-router.get('/profil', middleware, (req,res) => {
+router.get('/profil/:iduser', middleware, (req,res) => {
     const IDUserJSON = jwt.decode(req.cookies.tokenUser)
     const tokencookie = req.cookies.tokenUser
 
@@ -52,7 +52,20 @@ router.get('/profil', middleware, (req,res) => {
                                         res.render('profil')
                                     } else {
                                         console.log("likeeee", resultlikepost)
-                                        res.render('profil' , {result, resultcom, tokencookie ,IDUserJSON, resultuser, resultlikepost})
+                                        thedb.query('SELECT * FROM post INNER JOIN user USING(Iduser) WHERE Iduser =?', req.params.iduser, (errorProfilPost, resultProfilPost) => {
+                                            if (errorProfilPost) {
+                                                console.log('Error profil post');
+                                            } else if (!errorProfilPost) {
+                                                thedb.query('SELECT * FROM likecom INNER JOIN com USING(Iduser) INNER JOIN post USING(Iduser) INNER JOIN likepost USING(Iduser) INNER JOIN user USING(Iduser)', (errorLikeProfil, resultLikeProfil) => {
+                                                    if (errorLikeProfil) {
+                                                        console.log('Error like profil', errorLikeProfil);
+                                                    } else if (!errorLikeProfil) {
+                                                        console.log("****", resultLikeProfil);
+                                                        res.render('profil', {result, resultcom, tokencookie ,IDUserJSON, resultuser, resultlikepost, resultProfilPost})             
+                                                    }
+                                                })
+                                            } 
+                                        })
                                     }
                                 })        
                             }
