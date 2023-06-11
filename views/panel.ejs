@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/panel.css">
 </head>
 
@@ -15,18 +18,22 @@
             <ul class="nav-ul-1">
                 <li> <a href="/" class="lien-nav">Accueil</a></li>
                 <li><a href="/admin/panel/membres" class="lien-nav">Membres</a></li>
-                <li><a href="/admin/panel/posts" class="lien-nav">Posts</a></li>
+                <li><a href="/admin/panel/posts" class="lien-nav">Publications</a></li>
                 <li><a href="/admin/panel/commentaires" class="lien-nav">Commentaires</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
+        <div class="admin">
+            <img class="admin-logo" src="/images/logo.jpg" alt="Le logo Groupomania">
+            <h1>Bienvenue sur votre page Admin</h1>
+        </div>
         <% if (urlAdminMembers == "/admin/panel/membres" ) {%>
             <table>
                 <thead>
                     <tr>
-                        <th>Membres</th>
+                        <h2>Membres</h2>
                     </tr>
                 </thead>
                 <tbody>
@@ -72,18 +79,19 @@
 
 
             <% if (urlAdminPost == "/admin/panel/posts" ) {%>
-                <table>
-                    <thead>
+                <table class="post-table">  
+                    <thead>              
                         <tr>
-                            <th>Posts</th>
-                        </tr>
-                    </thead>
+                            <h2 class="h2-post">Publications</h2>
+                        </tr>      
+                    </thead>             
                     <tbody>
                         <th>IdPost</th>
                         <th>Prénom</th>
                         <th>Nom</th>
-                        <th>TextPost</th>
-                        <th>ImagePost</th>
+                        <th>Texte du post</th>
+                        <th>Image du post</th>
+                        <th colspan="2"></th>
                         <% resultsPost.forEach (function (Post) { %>
                             <tr>
                                 <td>
@@ -102,10 +110,10 @@
                                     <%= Post.image %>
                                 </td>
                                 <td>
-                                    <button><a href="/admin/panel/post/edit/<%=Post.idPost%>">Modifier</a></button>
+                                    <button class="edit-btn"><a href="/admin/panel/post/edit/<%=Post.idPost%>">Modifier</a></button>
                                 </td>
                                 <td>
-                                    <button><a href="/admin/panel/post/delete/<%=Post.idPost%>">Supprimer</a></button>
+                                    <button class="delete-btn"><a href="/admin/panel/post/delete/<%=Post.idPost%>">Supprimer</a></button>
                                 </td>
                             </tr>
                             <% }) %>
@@ -118,7 +126,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Commentaires</th>
+                            <h2 class="h2-com">Commentaires</h2>
                         </tr>
                     </thead>
                     <tbody>
@@ -126,7 +134,8 @@
                         <th>IdPost</th>
                         <th>Prénom</th>
                         <th>Nom</th>
-                        <th>TextCom</th>
+                        <th>Commentaire</th>
+                        <th colspan="2"></th>
                         <% resultsCom.forEach (function (Com) { %>
                             <tr>
                                 <td>
@@ -145,10 +154,10 @@
                                     <%= Com.textCom %>
                                 </td>
                                 <td>
-                                    <button><a href="/admin/panel/com/edit/<%=Com.idCom%>">Modifier</a></button>
+                                    <button class="edit-btn"><a href="/admin/panel/com/edit/<%=Com.idCom%>">Modifier</a></button>
                                 </td>
                                 <td>
-                                    <button><a href="/admin/panel/com/delete/<%=Com.idCom%>">Supprimer</a></button>
+                                    <button class="delete-btn"><a href="/admin/panel/com/delete/<%=Com.idCom%>">Supprimer</a></button>
                                 </td>
                             </tr>
                             <% }) %>
