@@ -55,14 +55,7 @@ router.get('/profil/:iduser', middleware, (req,res) => {
                                             if (errorProfilPost) {
                                                 console.log('Error profil post');
                                             } else if (!errorProfilPost) {
-                                                thedb.query('SELECT * FROM likecom INNER JOIN com USING(Iduser) INNER JOIN post USING(Iduser) INNER JOIN likepost USING(Iduser) INNER JOIN user USING(Iduser)', (errorLikeProfil, resultLikeProfil) => {
-                                                    if (errorLikeProfil) {
-                                                        console.log('Error like profil', errorLikeProfil);
-                                                    } else if (!errorLikeProfil) {
-                                                        console.log("****", resultLikeProfil);
-                                                        res.render('profil', {result, resultcom, tokencookie ,IDUserJSON, resultuser, resultlikepost, resultProfilPost})             
-                                                    }
-                                                })
+                                                res.render('profil', {result, resultcom, tokencookie ,IDUserJSON, resultuser, resultlikepost, resultProfilPost})             
                                             } 
                                         })
                                     }

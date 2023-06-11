@@ -34,11 +34,11 @@
             <% } %>
         </section>
 
-        <section class="section-center">
-            
+        <section class="section-center">          
             <div class="post">
+                <h3>Communiquez avec la communauté</h3>
                 <form action="/" method="post">
-                    <textarea name="textpost" id="" cols="30" rows="10" type="text" minlength="3" maxlength="255" placeholder="Veuillez écrire ici..." required></textarea>
+                    <textarea name="textpost" id=""  type="text" minlength="3" maxlength="255" placeholder="Ecrivez votre message" required></textarea>
                     <button class="sendpost">Poster</button>
                 </form>
             </div>
@@ -46,40 +46,46 @@
                 
                 <% result.forEach(function (text) {%>
                     <div class="thePost"> 
-                        <img class="imgUserPost" src="images/<%=text.Photoprofil%>">
-                        <h2>
-                            <%= text.Firstname + " " + text.Lastname %>
-                        </h2>
+                        <div class="img-name">
+                            <div>
+                                <img class="imgUserPost" src="images/<%=text.Photoprofil%>">
+                            </div>
+                            <div>
+                                <h3>
+                                    <%= text.Firstname + " " + text.Lastname %>
+                                </h3>
+                            </div>
+                        </div>
                         <p>
                             <%= text.text %>
                         </p>
-                        <h5>
+                        <h6>
                             <%= text.datePost %>
-                        </h5>
+                        </h6>
                         <form action="/like/post/<%=text.idPost%>" method="post"> 
-                            <button type="submit">&#10084;</button>
+                            <button class="like-btn" type="submit">&#10084;</button>
                         </form>
                         
                         
                         <div class="coms">
                             <form action="/com/post/<%=text.idPost%>" method="post">
-                                <input type="text" name="inputcomments" pattern="^[\'!?-._a-zA-Z\d\s]{3,255}$" required>
+                                <input type="text" name="inputcomments" pattern="^[\'!?-._a-zA-Z\d\s]{3,255}$" placeholder="Commentez" required>
                                 <button type="submit">Envoyer</button>
-                                <hr>
                             </form>
                             
                             <% resultcom.forEach(function(com) { %>
                                 <% if (com.idPost == text.idPost) {%>
-                                    <h5>
-                                        <%= com.Firstname + " " + com.Lastname %>
-                                    </h5>
-                                    <h5>
-                                        <%= com.textCom %>
-                                    </h5>
+                                    <div class="com-style">
+                                        <h5>
+                                            <%= com.Firstname + " " + com.Lastname %>
+                                        </h5>
+                                        <p>
+                                            <%= com.textCom %>
+                                        </p>
+                                    </div>
                                     <form action="/like/com/<%=com.idCom%>/post/<%=text.idPost%>" method="post">
-                                        <button name="like" class="buttonlikecom" type="submit"><h5 class="h5likecom">&#10084;</h5></button>
+                                        <button class="like-btn" name="like" class="buttonlikecom" type="submit"><h5 class="h5likecom">&#10084;</h5></button>
                                     </form>
-                                    <hr>
                                 <%} %>
                             <% })%>
                         </div>
