@@ -8,43 +8,75 @@
     </section>
 
     <section class="section-center">
-        <% if (tokencookie) {%>
-                <h2>Images de profil</h2>
-                <hr>                
+        <div class="pageParameter">
+
+            <% if (tokencookie) {%>
+                <h2>Paramètre de profil</h2>
+                <hr class="hrParameter">                
                 <form action="/user/parameter/edit/<%=IDUserJSON.Id%>" method="post" enctype="multipart/form-data">
-                    <h4>Prénom</h4>
-                    <input name="firstname" type="text" value="<%=resultuser[0].Firstname%>" pattern="^[\-._a-zA-Z\d]{3,50}$" required>
-                    <h4>Nom de famille</h4>
-                    <input name="lastname" type="text" value="<%=resultuser[0].Lastname%>" pattern="^[\-._a-zA-Z\d]{3,50}$" required>
-                    <h4>Email</h4>
-                    <input name="email" type="email" value="<%=resultuser[0].Email%>" pattern="^([\-._A-Za-z\d]{3,40})+@([a-zA-Z\d]{3,40})+\.([a-zA-Z\d]{3,20})$" required>
-                    <h4>Password</h4>
-                    <input name="password" type="password" pattern="^[\-._a-zA-Z\d]{3,255}$">
-                    <hr>
-                    <h4>Fonction</h4>
-                    <input name="fonction" type="text" value="<%=resultuser[0].Fonction%>"  pattern="^[\-._a-zA-Z\d\s]{0,50}$" required>
-                    <h4>Habite à</h4>
-                    <input name="ville" type="text" value="<%=resultuser[0].Ville%>" pattern="^[\-._a-zA-Z\d\s]{0,50}$" required>
-                    <h4>Date de naissance</h4>
-                    <input name="datenaissance" type="date" value="<%=resultuser[0].Datenaissance%>" >
-                    <h4>En poste depuis</h4>
-                    <input name="enpostedepuis" type="date" value="<%=resultuser[0].Enpostedepuis%>">
-                    <h3>Photo de Profil</h3>
-                    <img class="imageParameterPhotoProfil" src="/images/<%=resultuser[0].Photoprofil%>" alt="Photo de profil"> 
-                    <input name="photoprofil" type="file">
-                    <h3>Bannière Profil</h3>
-                    <input name="bannerprofil" type="file">
-                    <% if (resultuser[0].Bannerprofil) {%>
-                        <img class="imageParameterBannerProfil" src="/images/<%=resultuser[0].Bannerprofil%>" alt="Bannière de profil">
-                    <%}%>
-                    <button type="submit">Modifier</button>
-                    
-                </form>
-        
-                <form action="/user/parameter/delete/<%=IDUserJSON.Id%>" method="post">
-                    <button style="border-color: red; background-color: black; color: red; border-width: 0.3vh; border-style: solid;">Delete</button>
-                </form>
-        <%}%>
+                    <h3>Condidentialité</h3>
+                    <hr class="hrCondidentialite">
+                    <div class="divConfidentialite">
+                        <div class="confidChild1">
+
+                            <h4>Prénom</h4>
+                            <input name="firstname" type="text" value="<%=resultuser[0].Firstname%>" pattern="^[\-._a-zA-Z\d]{3,50}$" required>
+                            <h4>Nom de famille</h4>
+                            <input name="lastname" type="text" value="<%=resultuser[0].Lastname%>" pattern="^[\-._a-zA-Z\d]{3,50}$" required>
+                        </div>
+                        <div class="confidChild2">
+
+                            <h4>Email</h4>
+                            <input name="email" type="email" value="<%=resultuser[0].Email%>" pattern="^([\-._A-Za-z\d]{3,40})+@([a-zA-Z\d]{3,40})+\.([a-zA-Z\d]{3,20})$" required>
+                            <h4>Password</h4>
+                            <input name="password" type="password" pattern="^[\-._a-zA-Z\d]{3,255}$">
+                        </div>
+                    </div>
+                    <h3>Informations</h3>
+                    <hr class="hrInformations">
+                    <div class="divInformations">
+                        <div class="informationsChild1">
+
+                            <h4>Fonction</h4>
+                            <input name="fonction" type="text" value="<%=resultuser[0].Fonction%>"  pattern="^[\-._a-zA-Z\d\s]{0,50}$" required>
+                            <h4>Habite à</h4>
+                            <input name="ville" type="text" value="<%=resultuser[0].Ville%>" pattern="^[\-._a-zA-Z\d\s]{0,50}$" required>
+                        </div>
+                        <div class="informationsChild2">
+
+                            <h4>Date de naissance</h4>
+                            <input name="datenaissance" type="date" value="<%=resultuser[0].Datenaissance%>" >
+                            <h4>En poste depuis</h4>
+                            <input name="enpostedepuis" type="date" value="<%=resultuser[0].Enpostedepuis%>">
+                        </div>
+                    </div>
+                            <h3>Personnalisation Profil</h3>
+                            <hr class="hrCustomProfil">
+                            <div class="divCustomProfil">
+                                <div class="customProfilChild1">
+
+                                    <h4>Photo de Profil</h4>
+                                    <img class="imageParameterPhotoProfil" src="/images/<%=resultuser[0].Photoprofil%>" alt="Photo de profil"> 
+                                    <input name="photoprofil" type="file">
+                                </div>
+                                <div class="customProfilChild2">
+
+                                    <h4>Bannière Profil</h4>
+                                    <input name="bannerprofil" type="file">
+                                    <% if (resultuser[0].Bannerprofil) {%>
+                                        <img class="imageParameterBannerProfil" src="/images/<%=resultuser[0].Bannerprofil%>" alt="Bannière de profil">
+                                    <%}%>
+                                </div>
+                            </div>
+                        <button type="submit">Modifier</button>
+                        
+                    </form>
+            
+                    <form action="/user/parameter/delete/<%=IDUserJSON.Id%>" method="post">
+                        <button style="border-color: red; background-color: black; color: red; border-width: 0.3vh; border-style: solid;">Delete</button>
+                    </form>
+            <%}%>
+        </div>
     </section>
     <section class="section-right">
 

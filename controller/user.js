@@ -14,7 +14,7 @@ index.use(express.static('static'))
 const multer  = require('multer')
 const upload = multer({ dest: 'static/images/' })
 const RegexSecureFLN = /^([A-Za-z\d]){3,50}([._-]){0,2}$/;
-const RegexSecurePW = /^([A-Za-z\d]){3,255}|([._-]){3,255}$/;
+const RegexSecurePW = /^([A-Za-z\d\s]){3,255}|([._-]){3,255}$/;
 const RegexSecureEmail = /^([-._A-Za-z\d]){3,100}@([a-zA-Z]){3,15}\.([a-zA-Z]){3}$/
 const RegexSecureText = /^([A-Za-z\d\s\']){3,100}([!?,:._-]){0,100}$/;
 const RegexSecureDate = /^([-\d']){10}$/;
@@ -39,6 +39,7 @@ exports.EdiUser =  (req, res) => {
     
     
     thedb.query('Select * FROM user WHERE Iduser = ?', IdUser.Id, (errorEdiUser, resultEdiUser) => {
+        let hashedpassword = ""
         let {firstname, lastname, email, password, ville, enpostedepuis, fonction, datenaissance} = req.body
         console.log("o",req.body)
         let test  = password
@@ -52,18 +53,18 @@ exports.EdiUser =  (req, res) => {
         }
         
         
-        console.log(password)
-        let hashedpassword = "";
+        
         console.log("ttttttttttttttttttt", hashedpassword)
-        if (password != "" || password != undefined || password != null || RegexSecureFLN.test(password)) {
+
+        if (password != " " || password != "" || password != undefined || password != null || RegexSecurePW.test(password)) {
         password = req.body.password
         let salt = bcryptjs.genSaltSync(8)
         hashedpassword = bcryptjs.hashSync(password, salt)
         } 
-        else if (password == " " || password == "" || password == undefined || password == null || !RegexSecureFLN.test(password)) {
+        else if (password == " " || password == "" || password == undefined || password == null || !RegexSecurePW.test(password)) {
             password = resultEdiUser[0].Password
             let salt = bcryptjs.genSaltSync(8)
-            hashedpassword = bcryptjs.hashSync(password, salt)
+         hashedpassword = bcryptjs.hashSync(password, salt)
         }
 
         if (firstname == " " || firstname == "" || firstname == undefined || firstname == null || !RegexSecureFLN.test(firstname)) {
@@ -74,7 +75,7 @@ exports.EdiUser =  (req, res) => {
             lastname = resultEdiUser[0].Lastname
         }
 
-        if (email == " " || email == "" || email == undefined || email == null || !RegexSecureFLN.test(email)) {
+        if (email == " " || email == "" || email == undefined || email == null || !RegexSecureEmail.test(email)) {
             email = resultEdiUser[0].Email
         }
 
@@ -106,7 +107,7 @@ exports.EdiUser =  (req, res) => {
 
         console.log(hashedpassword)
         console.log("tttt", firstname)
-        thedb.query('UPDATE user SET ? WHERE IdUser = ?', [{Firstname: firstname, Lastname: lastname, Email: email, Password: hashedpassword, Fonction: fonction, Ville: ville, Datenaissance: datenaissance, Enpostedepuis: enpostedepuis, Bannerprofil: bannerprofil, Photoprofil: photoprofil}, IdUser.Id], (error, results)  =>  {
+        thedb.query('UPDATE user SET ? WHERE IdUser = ?',  [{Firstname: firstname, Lastname: lastname, Email: email, Password:  hashedpassword, Fonction: fonction, Ville: ville, Datenaissance: datenaissance, Enpostedepuis: enpostedepuis, Bannerprofil: bannerprofil, Photoprofil: photoprofil}, IdUser.Id], (error, results)  =>  {
             if (error) {
                 console.log(error)
                 return res.status(400).json ({Message: "Message d'erreur"})

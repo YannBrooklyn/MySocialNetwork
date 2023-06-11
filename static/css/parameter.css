@@ -1,0 +1,53 @@
+.hrParameter {
+    width: 100%;
+}
+
+.divConfidentialite {
+    display: flex;
+    flex-direction: row;
+    gap: 4vw;
+}
+.confidChild1 {
+    display: flex;
+    flex-direction: column;
+}
+.confidChild2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.divInformations {
+    display: flex;
+    flex-direction: row;
+    gap: 4vw;
+}
+.informationsChild1 {
+    display: flex;
+    flex-direction: column;
+}
+.informationsChild2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.divCustomProfil {
+    display: flex;
+    flex-direction: row;
+}
+
+.customProfilChild1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.customProfilChild2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.pageParameter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

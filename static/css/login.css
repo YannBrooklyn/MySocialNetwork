@@ -4,7 +4,7 @@ html {
 }
 
 body {
-    background-color: #4e5166;
+    background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(78,81,102,1) 56%);
     height: 100%;
     width: 100%;
 }
@@ -33,7 +33,10 @@ main {
 }
 
 .section-center-login {
-    background-color:  #b1b1b1dd;
+    border-color: #FD2D01;
+    border-width: 1px;
+    border-style: solid;
+    background: linear-gradient(0deg, white, #b1b1b1dd);
     border-radius: 4vh;
     color: white;
 }
@@ -46,7 +49,7 @@ main {
 #buttonlog {
     height: 4vh;
     width: 15vh;
-    border-radius: 2vh;
+    border-radius: 5px;
     border-style: none;
     background-color: #FD2D01;
     color: white;
