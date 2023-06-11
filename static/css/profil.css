@@ -18,7 +18,11 @@
     background-color: #dcdcdc81;
 }
 
-.imgprofil {
+.headerprofil .bannerprofil {
+    height: 100%;
+}
+
+/* .imgprofil {
     position: absolute;
     top: 18%;
     left: 28%;
@@ -26,6 +30,15 @@
     height: 20vh;
     width: 20vh;
     border-style: solid;
+} */
+
+.imgprofil {
+    position: relative;
+    height: 70%;
+    width: 20%;
+    border-radius: 50%;
+    border: 1px solid #FD2D01;
+    margin-top: -10%;
 }
 
 .statsprofil {
@@ -48,4 +61,17 @@
     font-weight: bold;
     font-size: 2vh;
     border-style: none;
+}
+
+.mainprofil h3 {
+    text-align: center;
+}
+
+.divprofilpost .profil-post{
+    background-color: white;
+    width: 90%;
+    border-radius: 10px;
+    margin-top: 3%;
+    padding: 2%;
+    box-shadow: rgba(0, 0, 0, 0.445) 1px 1px 0px 1px;
 }

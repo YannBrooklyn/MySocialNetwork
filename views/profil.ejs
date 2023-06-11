@@ -11,27 +11,15 @@
             <div class="headerprofil">
                 <img class="bannerprofil" src="/images/<%= resultuser[0].Bannerprofil %>" alt="Bannière Profil">
                 <img class="imgprofil" src="/images/<%= resultuser[0].Photoprofil %>" alt="Photo de profil">
-                <div class="statsprofil">
-                    <h4>Post</h4>
-                    <h4>???</h4>
-                    <h4>Commentaire</h4>
-                    <h4>???</h4>
-                    <h4>Like</h4>
-                    <h4>???</h4>
-                    
-                </div>
-                <div class="optionprofil">
-                    <button class="buttonprofiloption">Post</button>
-                    <button class="buttonprofiloption">Commentaire</button>
-                    <button class="buttonprofiloption">Like</button>
-                </div>
             </div>
             <section class="mainprofil">
                 <div class="divprofilpost">
+                    <div class="profil-post">
+                        <h3>Mes publications</h3>
                     <% resultProfilPost.forEach(function (profilPost) {%>
                         <h4><%= profilPost.Firstname + " " + profilPost.Lastname %></h4>
                         <h5><%= profilPost.text %></h5>
-                        <h5><%= profilPost.datePost %></h5>
+                        <h5><%= profilPost.datePost %></h5>                 
                         <% resultcom.forEach(function(com) { %>
                             <% if (com.idPost == profilPost.idPost) {%>
                                 <h5>
@@ -47,8 +35,8 @@
                             <% } %>
                         <% }) %>
                     <% }) %>
-                </div>
                 <div class="divprofilcom">
+                    <h3>Mes commentaires</h3>
                     <% resultcom.forEach (function (myCom) {%>
                         <% if (myCom.Iduser == IDUserJSON.Id) {%>
                             <h4>
@@ -64,7 +52,14 @@
             </section>
         </section>
         <section class="section-right">
-            
+            <div class="footer">
+                <a href="">Conditions d'utilisation</a>
+                <a href="">Politique de Confidentialité</a>
+                <a href="">Politique relative aux cookies</a>
+                <a href="">Accessibilité</a>
+                <a href="">Informations sur les publicités</a>
+                <a href="">Plus</a>
+            </div>
         </section>
 
 
