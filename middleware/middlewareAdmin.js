@@ -6,7 +6,8 @@ const thedb = require('../config/dbconfig.js');
 
 
 
-module.exports = function middleware (req, res, nex) {
+
+module.exports = function middlewareAdmin (req, res, nex) {
     console.log("teetetetet", req.cookies.tokenUser)
     if (!req.cookies.tokenUser) {
         res.redirect('/register')
@@ -15,10 +16,20 @@ module.exports = function middleware (req, res, nex) {
             if (err) {
                 console.log("looke", err)
             } else {
-                console.log("deode", dec)
-                nex()
+                thedb.query('SELECT Rang FROM user WHERE Iduser = ?', dec.Id, (error, result) => {
+                    if (error) {
+                        console.log(error)
+                    }
+                    else if (!error) {
+                        if (result[0].Rang === 1) {
+                        nex()
+                        }
+                        else {
+                            res.redirect('/')
+                        }
+                    }
+                })
             }
         })
     }  
 }
-

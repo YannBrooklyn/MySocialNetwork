@@ -1,14 +1,14 @@
 let express = require("express")
 const router = express.Router()
 const IndexController = require('../controller/index.js')
-const verifytoken = require('../middleware/middleware.js')
+const middleware = require('../middleware/middleware.js')
 const thedb = require('../config/dbconfig.js')
 let jwt = require('jsonwebtoken')
 let cookieparser = require('cookie-parser')
 
 const multer = require('multer')
 const upload = multer({dest: 'static/images/'})
-const middlewareAdmin = require('../middleware/middleware.js')
+const middlewareAdmin = require('../middleware/middlewareAdmin.js')
 
 
 router.get('/', (req, res) => {

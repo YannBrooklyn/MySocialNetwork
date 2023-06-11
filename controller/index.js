@@ -21,7 +21,15 @@ exports.Index = (req, res) => {
     console.log(reqTextArea)
     const IdUser = jwt.decode(req.cookies.tokenUser)
     console.log(req.cookies.tokenUser)
-    const textpost = { text: reqTextArea, image: req.file.filename, Iduser: IdUser.Id }
+    
+    let textpost = {}
+
+    if (req.file != undefined) {
+        textpost = { text: reqTextArea, image: req.file.filename, Iduser: IdUser.Id }
+    } else if (req.file == undefined) {
+        textpost = { text: reqTextArea, Iduser: IdUser.Id }
+    }
+    
 
     if (!RegexSecureText.test(reqTextArea)) {
         return res.redirect('/')
