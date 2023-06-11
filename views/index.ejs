@@ -11,10 +11,10 @@
                 <div class="text-profil">
                     
                     <p><%= resultuser[0].Firstname + " " + resultuser[0].Lastname %></p>
-                    <% if (resultuser[0].Habitea == null || resultuser[0].Habitea == "" || resultuser[0].Habitea == " ") { %>
+                    <% if (resultuser[0].Ville == null || resultuser[0].Ville == "" || resultuser[0].Ville == " ") { %>
                     <% } else { %>
                         <p>
-                            - Habite à <%= resultuser[0].Habitea %>
+                            - Habite à <%= resultuser[0].Ville %>
                         </p>
                     <% } %>
                     <% if (resultuser[0].Datenaissance == null || resultuser[0].Datenaissance == "" || resultuser[0].Datenaissance == " ") { %>
@@ -38,8 +38,9 @@
             
             
             <div class="post">
-                <form action="/" method="post">
+                <form action="/" method="post" enctype="multipart/form-data">
                     <textarea name="textpost" id="" cols="30" rows="10" type="text" minlength="3" maxlength="255" placeholder="Veuillez écrire ici..." required></textarea>
+                    <input type="file" name="imagepost" id="">
                     <button class="sendpost">Poster</button>
                 </form>
             </div>
@@ -54,11 +55,18 @@
                         <p>
                             <%= text.text %>
                         </p>
+
+                        <% if (text.image) { %>
+                            <img src="images/<%=text.image%>" alt="Image post">
+                        <% }%>
                         <h5>
-                            <%= text.datePost %>
+                            <%= text.datePost.getDate() + "-" + text.datePost.getMonth() + "-" + text.datePost.getFullYear() + " " + text.datePost.getHours() + ":" + text.datePost.getMinutes() %>
                         </h5>
+
+                        
+
                         <form action="/like/post/<%=text.idPost%>" method="post"> 
-                            <button type="submit">&#10084;</button>
+                            <button class="buttonlikepost" type="submit">&#9825;</button>
                         </form>
                         
                         
@@ -78,7 +86,7 @@
                                         <%= com.textCom %>
                                     </h5>
                                     <form action="/like/com/<%=com.idCom%>/post/<%=text.idPost%>" method="post">
-                                        <button name="like" class="buttonlikecom" type="submit"><h5 class="h5likecom">&#10084;</h5></button>
+                                        <button name="like" class="buttonlikecom" type="submit"><h5 class="h5likecom">&#9825;</h5></button>
                                     </form>
                                     <hr>
                                 <%} %>

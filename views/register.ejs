@@ -7,6 +7,10 @@
         <section class="section-center-register">
             <form method="post" action="register" name="Formulaire register">
                 <div class="contentregister">
+                    <% if (AlerteMsg) {%>
+                        <%= AlerteMsg %>
+                    <% } else if (!AlerteMsg){%>
+                    <%}%>
                     <h4 class="h4register">Firstname</h4>
                     <input class="inputtextregister" name="firstname"type="text" pattern="^[\-._a-zA-Z\d]{3,50}$" required>
                     <h4 class="h4register">Lastname</h4>

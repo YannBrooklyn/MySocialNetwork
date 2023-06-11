@@ -8,13 +8,16 @@
             </div>
             <div class="navRight">
                 <ul>
-                    <a href="/admin/panel"><li>Admin</li></a>
+                    <%if(tokencookie) {%>
+                    <% if (resultuser[0].Rang === 1) {%>
+                        <a href="/admin/panel"><li>Admin</li></a>
+                    <%}%>
+                    <%}%>
                     <a href="/"><li>Accueil</li></a>
                     <a href="/user/members/all"><li>Members</li></a>
                     <% if (tokencookie) { %>
                     <a href="/user/profil/<%= IDUserJSON.Id %>"><li>Profil</li></a>
                     <% } %>
-                    <a href="/user/shoutbox"><li>Shoutbox</li></a>
                     <% if (!tokencookie) { %>
                     <a href="/register"><li>Register</li></a>
                     <% } %>

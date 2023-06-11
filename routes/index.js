@@ -8,6 +8,7 @@ let cookieparser = require('cookie-parser')
 
 const multer = require('multer')
 const upload = multer({dest: 'static/images/'})
+const middlewareAdmin = require('../middleware/middleware.js')
 
 
 router.get('/', (req, res) => {
@@ -62,7 +63,7 @@ router.get('/', (req, res) => {
     }
 })
 
-router.post ('/' , IndexController.Index)
+router.post ('/' , upload.single('imagepost'), IndexController.Index)
 
 
 // Route pour Login
@@ -139,19 +140,23 @@ router.get('/register', (req, res) => {
                 
                 thedb.query('SELECT * FROM post INNER JOIN user USING(Iduser) ORDER BY datePost DESC', (error, result) => {
                     if (error) {
-                        res.render('register')
+                        let AlerteMsg = "";
+                        res.render('register', {AlerteMsg})
                     } else {
                         thedb.query('SELECT * FROM com INNER JOIN user USING(Iduser)', (errcom, resultcom) => {
                             if (error) {
-                                res.render('register')
+                                let AlerteMsg = "";
+                                res.render('register', {AlerteMsg})
                             } else {           
                                 thedb.query('SELECT * FROM likepost', (errorlikepost, resultlikepost)=> {
                                     if (error)  {
+                                        let AlerteMsg = "";
                                         console.log(error)
-                                        res.render('register')
+                                        res.render('register', {AlerteMsg})
                                     } else {
+                                        let AlerteMsg = "";
                                         console.log("likeeee", resultlikepost)
-                                        res.render('register' , {result, resultcom, tokencookie ,IDUserJSON, resultuser, resultlikepost})
+                                        res.render('register' , {result, resultcom, tokencookie ,IDUserJSON, resultuser, resultlikepost, AlerteMsg})
                                     }
                                 })        
                             }
@@ -164,13 +169,16 @@ router.get('/register', (req, res) => {
     else if (!tokencookie) {
         thedb.query('SELECT * FROM post INNER JOIN user USING(Iduser) ORDER BY datePost DESC', (error, result) => {
             if (error) {
-                res.render('register')
+                let AlerteMsg = "";
+                res.render('register', {AlerteMsg})
             } else {
                 thedb.query('SELECT * FROM com INNER JOIN user USING(Iduser)', (errcom, resultcom) => {
                     if (error) {
-                        res.render('register')
+                        let AlerteMsg = "";
+                        res.render('register', {AlerteMsg})
                     } else {
-                        res.render('register' , {result, resultcom, tokencookie ,IDUserJSON})
+                        let AlerteMsg = "";
+                        res.render('register' , {result, resultcom, tokencookie ,IDUserJSON, AlerteMsg})
                     }
                 })
             }
@@ -188,7 +196,7 @@ router.get('/logout', (req,res) => {
 })
 
 // Route pour page admin
-router.get('/admin/panel', IndexController.Admin);
+router.get('/admin/panel', middlewareAdmin,  IndexController.Admin);
 
 // Route pour tous les membres dans la page admin
 router.get('/admin/panel/membres', IndexController.Admin);

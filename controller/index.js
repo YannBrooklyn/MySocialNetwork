@@ -12,6 +12,8 @@ const RegexSecureEmail = /^([-._A-Za-z\d]){3,100}@([a-zA-Z]){3,15}\.([a-zA-Z]){3
 
 const RegexSecureText = /^([A-Za-z\d\s\']){3,100}([!?,:._-]){0,100}$/;
 
+const multer = require('multer')
+const upload = multer({dest: 'static/images/'})
 
 exports.Index = (req, res) => {
     console.log(req.body)
@@ -19,7 +21,7 @@ exports.Index = (req, res) => {
     console.log(reqTextArea)
     const IdUser = jwt.decode(req.cookies.tokenUser)
     console.log(req.cookies.tokenUser)
-    const textpost = { text: reqTextArea, Iduser: IdUser.Id }
+    const textpost = { text: reqTextArea, image: req.file.filename, Iduser: IdUser.Id }
 
     if (!RegexSecureText.test(reqTextArea)) {
         return res.redirect('/')
@@ -143,33 +145,39 @@ exports.RegUser = (req, res) => {
     const { firstname, lastname, email, password, passwordconfirm } = req.body
 
     if (!RegexSecureFLN.test(req.body.firstname && req.body.lastname) || !RegexSecurePW.test(req.body.password && req.body.passwordconfirm) || !RegexSecureEmail.test(req.body.email)) {
-        return res.redirect('/register')
+        const AlerteMsg = "Erreur lors de l'enregistrement. Veuillez Renseignez pour le Prénom et le Nom <br> un minimum de 3 caractères et pour le Password un minimum de 3 caractères."
+        return res.redirect('/register' )
     }
     else if (RegexSecureFLN.test(req.body.firstname && req.body.lastname) || RegexSecurePW.test(req.body.password && req.body.passwordconfirm) || RegexSecureEmail.test(req.body.email)) {
         thedb.query('SELECT Email From user WHERE Email = ?', [email], (error, results) => {
             if (error) {
+                const AlerteMsg = "Erreur Général veuillez réessayez ultérieurement !"
                 console.log('Error ' + error)
-                return res.redirect('/register')
+                return res.redirect('/register' )
             }
             else if (results.length > 0) {
+                const AlerteMsg = "Email déjà utilisé"
                 console.log("email déjà utilisé")
                 return res.redirect('/register')
             }
             else if (password !== passwordconfirm) {
+                const AlerteMsg = "Mot de passe différent, veuillez renseigner le meme mot de passe pour confirmé"
                 console.log('pas le même password')
                 return res.redirect('/register')
             }
             else if (password === passwordconfirm && results.length == 0) {
                 const salt = bcryptjs.genSaltSync(8)
                 const hashedpassword = bcryptjs.hashSync(password, salt)
-                console.log('Voici le mdp hasher ' + hashedpassword)
+                
 
                 const newUser = { Firstname: firstname, Lastname: lastname, Email: email, Password: hashedpassword }
                 thedb.query('INSERT INTO user SET ?', newUser, (error, results) => {
                     if (error) {
+                        const AlerteMsg = "Erreur général veuillez réessayer ultérieurement !"
                         console.log("Une erreur s'est produite " + error)
                         return res.redirect('/register')
                     } else {
+                        const AlerteMsg = "Enregistrement réussi, vous pouvez vous connectez !"
                         console.log("Enregistrement réussi ", results)
                         return res.redirect('/login')
                     }
@@ -207,7 +215,8 @@ exports.LogUser = (req, res) => {
                 return res.redirect('/')
             }
             else if (bcryptjsverify == false) {
-                res.status(400).json({ Message: "Wrong password" })
+                res.status(400)
+                res.redirect('/login')
             }
         }
     })

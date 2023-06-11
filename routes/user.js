@@ -20,7 +20,7 @@ router.get('/shoutbox', UserController.ShoUser)
 // Routes pour supprimer un utilisateur
 router.post('/parameter/delete/:iduser',  UserController.DelUser)
 // Routes pour modifier utilisateur
-router.post('/parameter/edit/:iduser', upload.single('testavatar'), UserController.EdiUser)
+router.post('/parameter/edit/:iduser', upload.fields([{name: 'photoprofil', maxCount: 1}, {name: 'bannerprofil', maxCount: 1}]), UserController.EdiUser)
 // Routes pour récupérer tout les utilisateurs
 router.get('/members/all', UserController.AllUser)
 // Routes pour récupérer un utilisateur
@@ -116,7 +116,10 @@ router.get('/parameter', middleware, (req,res) => {
                                         res.render('parameter')
                                     } else {
                                         console.log("likeeee", resultlikepost)
-                                        res.render('parameter' , {result, resultcom, tokencookie ,IDUserJSON, resultuser, resultlikepost})
+                                        const parameter = req.originalUrl;
+                                        console.log(parameter)
+                                        
+                                        res.render('parameter' , {result, resultcom, tokencookie ,IDUserJSON, resultuser, resultlikepost, parameter})
                                     }
                                 })        
                             }
@@ -135,7 +138,8 @@ router.get('/parameter', middleware, (req,res) => {
                     if (error) {
                         res.render('parameter')
                     } else {
-                        res.render('parameter' , {result, resultcom, tokencookie ,IDUserJSON})
+                        const parameter = req.originalUrl
+                        res.render('parameter' , {result, resultcom, tokencookie ,IDUserJSON, parameter})
                     }
                 })
             }
@@ -143,7 +147,7 @@ router.get('/parameter', middleware, (req,res) => {
     }
 })
 
- 
+
 
 
 

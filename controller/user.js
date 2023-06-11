@@ -11,10 +11,13 @@ const thedb = require('../config/dbconfig.js');
 const index = express();
 index.set("view engine", "ejs")
 index.use(express.static('static'))
-
 const multer  = require('multer')
 const upload = multer({ dest: 'static/images/' })
-
+const RegexSecureFLN = /^([A-Za-z\d]){3,50}([._-]){0,2}$/;
+const RegexSecurePW = /^([A-Za-z\d]){3,255}|([._-]){3,255}$/;
+const RegexSecureEmail = /^([-._A-Za-z\d]){3,100}@([a-zA-Z]){3,15}\.([a-zA-Z]){3}$/
+const RegexSecureText = /^([A-Za-z\d\s\']){3,100}([!?,:._-]){0,100}$/;
+const RegexSecureDate = /^([-\d']){10}$/;
 exports.DelUser = (req, res) => {
     const IDuserme = jwt.decode(req.cookies.tokenUser)
     
@@ -32,22 +35,101 @@ exports.DelUser = (req, res) => {
 exports.EdiUser =  (req, res) => {
     const IdUser = jwt.decode(req.cookies.tokenUser)
     console.log("test", IdUser)
-    console.log('erreur')
     
-    // const {firstname, lastname, email, password, photoprofil, bannerprofil, datenaissance, enpostedepuis, habitea, fonction} = req.body
-    const {photoprofil} = req.body
-     const test = req.file.filename
-     console.log(req)
-    // const salt = bcryptjs.genSaltSync(8)
-    // const hashedpassword = bcryptjs.hashSync(password, salt)
     
-    thedb.query('UPDATE user SET ? WHERE IdUser = ?', [{Photoprofil: test}, IdUser.Id], (error, results) => {
-        if (error) {
-            return res.status(400).json ({Message: "Message d'erreur"})
-        } else {
-            return res.redirect('/user/parameter')
+    
+    thedb.query('Select * FROM user WHERE Iduser = ?', IdUser.Id, (errorEdiUser, resultEdiUser) => {
+        let {firstname, lastname, email, password, ville, enpostedepuis, fonction, datenaissance} = req.body
+        console.log("o",req.body)
+        let test  = password
+        let bannerprofil = ""
+        let photoprofil = ""
+        if (req.files.bannerprofil) {
+            bannerprofil = req.files.bannerprofil[0].filename
         }
+        if (req.files.photoprofil) {
+            photoprofil = req.files.photoprofil[0].filename
+        }
+        
+        
+        console.log(password)
+        let hashedpassword = "";
+        console.log("ttttttttttttttttttt", hashedpassword)
+        if (password != "" || password != undefined || password != null || RegexSecureFLN.test(password)) {
+        password = req.body.password
+        let salt = bcryptjs.genSaltSync(8)
+        hashedpassword = bcryptjs.hashSync(password, salt)
+        } 
+        else if (password == " " || password == "" || password == undefined || password == null || !RegexSecureFLN.test(password)) {
+            password = resultEdiUser[0].Password
+            let salt = bcryptjs.genSaltSync(8)
+            hashedpassword = bcryptjs.hashSync(password, salt)
+        }
+
+        if (firstname == " " || firstname == "" || firstname == undefined || firstname == null || !RegexSecureFLN.test(firstname)) {
+            firstname = resultEdiUser[0].Firstname
+        }
+
+        if (lastname == " " || lastname == "" || lastname == undefined || lastname == null || !RegexSecureFLN.test(lastname)) {
+            lastname = resultEdiUser[0].Lastname
+        }
+
+        if (email == " " || email == "" || email == undefined || email == null || !RegexSecureFLN.test(email)) {
+            email = resultEdiUser[0].Email
+        }
+
+        
+
+        if (fonction == " " || fonction == "" || fonction == undefined || fonction == null || !RegexSecureFLN.test(fonction)) {
+            fonction = resultEdiUser[0].Fonction
+        }
+
+        if (ville == " " || ville == "" || ville == undefined || ville == null || !RegexSecureFLN.test(ville)) {
+            ville = resultEdiUser[0].Ville
+        }
+
+        if (datenaissance == " " || datenaissance == "" || datenaissance == undefined || datenaissance == null || !RegexSecureDate.test(datenaissance)) {
+            datenaissance = resultEdiUser[0].Datenaissance
+        }
+
+        if (enpostedepuis == " " || enpostedepuis == "" || enpostedepuis == undefined || enpostedepuis == null || !RegexSecureDate.test(enpostedepuis)) {
+            enpostedepuis = resultEdiUser[0].Enpostedepuis
+        }
+        
+        if (bannerprofil == " " || bannerprofil == "" || bannerprofil == undefined || bannerprofil == null || !RegexSecureFLN.test(bannerprofil)) {
+            bannerprofil = resultEdiUser[0].Bannerprofil
+        }
+
+        if (photoprofil == " " || photoprofil == "" || photoprofil == undefined || photoprofil == null || !RegexSecureFLN.test(photoprofil)) {
+            photoprofil = resultEdiUser[0].Photoprofil
+        }
+
+        console.log(hashedpassword)
+        console.log("tttt", firstname)
+        thedb.query('UPDATE user SET ? WHERE IdUser = ?', [{Firstname: firstname, Lastname: lastname, Email: email, Password: hashedpassword, Fonction: fonction, Ville: ville, Datenaissance: datenaissance, Enpostedepuis: enpostedepuis, Bannerprofil: bannerprofil, Photoprofil: photoprofil}, IdUser.Id], (error, results)  =>  {
+            if (error) {
+                console.log(error)
+                return res.status(400).json ({Message: "Message d'erreur"})
+            } else {
+                
+                return res.redirect('/user/parameter' )
+            }
+        })
+    
+        // else if (firstname != " " || firstname != "" || firstname != undefined || firstname != null || RegexSecureFLN.test(firstname)) {
+        //     console.log("coucou")
+        //     thedb.query('UPDATE user SET ? WHERE IdUser = ?',  [{Firstname: firstname}, IdUser.Id], (error, results) => {
+        //         if (error) {
+        //             return res.status(400).json ({Message: "Message d'erreur"})
+        //         } else {
+                    
+        //             return res.redirect('/user/parameter' )
+        //         }
+        //     })
+        // }
+        
     })
+    
 }
 
 
