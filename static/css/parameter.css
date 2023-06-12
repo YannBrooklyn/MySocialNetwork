@@ -45,6 +45,15 @@
     flex-direction: column;
 }
 
+.parentPageParameter {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .pageParameter {
     display: flex;
     flex-direction: column;
